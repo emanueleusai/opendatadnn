@@ -30,7 +30,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:step1_qcd8.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/step1_qcd8.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
@@ -84,10 +84,12 @@ process.validation_step = cms.EndPath(process.validation_prod)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.AODSIMoutput_step = cms.EndPath(process.AODSIMoutput)
 #process.DQMoutput_step = cms.EndPath(process.DQMoutput)
-
+process.demo = cms.EDAnalyzer('SaveHits'
+)
+process.p = cms.Path(process.demo)
 # Schedule definition
 # process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.validation_step,process.dqmoffline_step,process.endjob_step,process.AODSIMoutput_step,process.DQMoutput_step)
-process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.validation_step,process.dqmoffline_step,process.endjob_step,process.AODSIMoutput_step)
+process.schedule = cms.Schedule(process.raw2digi_step,process.L1Reco_step,process.reconstruction_step,process.p,process.validation_step,process.dqmoffline_step,process.endjob_step,process.AODSIMoutput_step)
 # customisation of the process.
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
