@@ -1,0 +1,2 @@
+scram b -j10
+cmsRun step2step3.py

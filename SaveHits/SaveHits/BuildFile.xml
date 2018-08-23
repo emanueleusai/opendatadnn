@@ -1,12 +1,14 @@
-<use name="FWCore/Framework"/>
-<use name="FWCore/PluginManager"/>
-<use name="FWCore/ParameterSet"/>
-<use name="rootmath"/> 
-<use name="boost"/>
-<use   name="RecoLocalTracker/ClusterParameterEstimator"/>
-<use   name="RecoLocalTracker/Records"/>
-<use   name="RecoLocalTracker/SiPixelRecHits"/>
+<use   name="FWCore/Framework"/>
+<use   name="DataFormats/Common"/>
+<use   name="FWCore/ParameterSet"/>
+<use   name="RecoLocalTracker/SiStripRecHitConverter"/>
+<use   name="SimDataFormats/TrackerDigiSimLink"/>
+<use   name="SimTracker/TrackerHitAssociation"/>
+<use   name="SimDataFormats/CrossingFrame"/>
+<use   name="CommonTools/UtilAlgos"/>
+<use   name="FWCore/ServiceRegistry"/>
+<use   name="clhep"/>
+<use   name="boost"/>
+<use   name="root"/>
 <flags EDM_PLUGIN="1"/>
-<export>
-   <lib name="1"/>
-</export>
+
