@@ -1,0 +1,26 @@
+tokeep:
+
+from aodsim
+vector<reco::GenParticle>             "genParticles"              ""                "SIM" 
+edm::TriggerResults                   "TriggerResults"            ""                "HLT" 
+vector<reco::PFCandidate>             "particleFlow"              ""                "RECO"  
+vector<reco::Track>                   "generalTracks"             ""                "RECO"
+
+maybe:
+vector<PileupSummaryInfo>             "addPileupInfo"             ""                "HLT"     
+trigger::TriggerEvent                 "hltTriggerSummaryAOD"      ""                "HLT" 
+vector<reco::Vertex>                  "offlinePrimaryVerticesWithBS"   ""                "RECO" 
+
+from keepall
+edmNew::DetSetVector<SiPixelRecHit>    "siPixelRecHits"            ""                "RECO"
+edmNew::DetSetVector<SiStripMatchedRecHit2D>    "siStripMatchedRecHits"     "matchedRecHit"   "RECO"    
+
+
+maybe keepall:
+edmNew::DetSetVector<SiStripRecHit2D>    "siStripMatchedRecHits"     "rphiRecHit"      "RECO"    
+edmNew::DetSetVector<SiStripRecHit2D>    "siStripMatchedRecHits"     "rphiRecHitUnmatched"   "RECO"    
+edmNew::DetSetVector<SiStripRecHit2D>    "siStripMatchedRecHits"     "stereoRecHit"    "RECO"    
+edmNew::DetSetVector<SiStripRecHit2D>    "siStripMatchedRecHits"     "stereoRecHitUnmatched"   "RECO"  
+
+edmNew::DetSetVector<SiPixelCluster>    "siPixelClusters"           ""                "RECO"      
+edmNew::DetSetVector<SiStripCluster>    "siStripClusters"           ""                "RECO"  
