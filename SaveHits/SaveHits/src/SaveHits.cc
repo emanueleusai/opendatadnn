@@ -37,6 +37,7 @@
 
 #include "DataFormats/TrackerRecHit2D/interface/SiPixelRecHitCollection.h"
 #include "DataFormats/TrackerRecHit2D/interface/SiStripMatchedRecHit2DCollection.h"
+#include "DataFormats/TrackerRecHit2D/interface/SiStripRecHit2DCollection.h"
 
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
@@ -74,6 +75,8 @@
 #include "TrackingTools/PatternTools/interface/Trajectory.h"
 
 #include "TTree.h"
+
+#include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h"
 
 //
 // class declaration
@@ -149,6 +152,15 @@ class SaveHits : public edm::EDAnalyzer {
       std::vector<Float_t> track_vy;
       std::vector<Float_t> track_vz;
       std::vector<Int_t>   track_algo;
+      std::vector<std::vector<Float_t> > track_hit_global_x;
+      std::vector<std::vector<Float_t> > track_hit_global_y;
+      std::vector<std::vector<Float_t> > track_hit_global_z;
+      std::vector<std::vector<Float_t> > track_hit_local_x;
+      std::vector<std::vector<Float_t> > track_hit_local_y;
+      std::vector<std::vector<Float_t> > track_hit_local_x_error;
+      std::vector<std::vector<Float_t> > track_hit_local_y_error;
+      std::vector<std::vector<UInt_t> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+      std::vector<std::vector<UInt_t> >  track_hit_layer;
 
 };
 
@@ -352,16 +364,18 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
 
       //std::cout<<"["<<lp.x()<<", "<<clust->x()<<", "<<lp.y()<<"],"<<clust->y()<<std::endl;
-
-      hit_sub_det.push_back(subid);
-      hit_layer.push_back(layer);
-      hit_global_x.push_back(GP.x());
-      hit_global_y.push_back(GP.y());
-      hit_global_z.push_back(GP.z());
-      hit_local_x.push_back(lp.x());
-      hit_local_y.push_back(lp.y());
-      hit_local_x_error.push_back(sqrt(le.xx()));
-      hit_local_y_error.push_back(sqrt(le.yy()));
+      if (pixeliter->isValid())
+      {
+        hit_sub_det.push_back(subid);
+        hit_layer.push_back(layer);
+        hit_global_x.push_back(GP.x());
+        hit_global_y.push_back(GP.y());
+        hit_global_z.push_back(GP.z());
+        hit_local_x.push_back(lp.x());
+        hit_local_y.push_back(lp.y());
+        hit_local_x_error.push_back(sqrt(le.xx()));
+        hit_local_y_error.push_back(sqrt(le.yy()));
+      }
       // hit_cluster_global_x.push_back();
       // hit_cluster_global_y.push_back();
       // hit_cluster_global_z.push_back();
@@ -380,17 +394,20 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   } //detid
 
 //sistrip
+  std::vector<std::string> collections;
+  collections.push_back("rphiRecHit");
+  collections.push_back("stereoRecHit");
 
+for (unsigned int the_collection=0; the_collection<collections.size();the_collection++){
+  edm::Handle<SiStripRecHit2DCollection> stripRecHitColl;
+  iEvent.getByLabel( edm::InputTag("siStripMatchedRecHits",collections[the_collection]) , stripRecHitColl);
 
-  edm::Handle<SiStripMatchedRecHit2DCollection> stripRecHitColl;
-  iEvent.getByLabel( edm::InputTag("siStripMatchedRecHits","matchedRecHit") , stripRecHitColl);
-
-  SiStripMatchedRecHit2DCollection::const_iterator stripRecHitIdIterator      = (stripRecHitColl.product())->begin();
-  SiStripMatchedRecHit2DCollection::const_iterator stripRecHitIdIteratorEnd   = (stripRecHitColl.product())->end();
+  SiStripRecHit2DCollection::const_iterator stripRecHitIdIterator      = (stripRecHitColl.product())->begin();
+  SiStripRecHit2DCollection::const_iterator stripRecHitIdIteratorEnd   = (stripRecHitColl.product())->end();
 
   for (; stripRecHitIdIterator != stripRecHitIdIteratorEnd; ++stripRecHitIdIterator)
   { 
-     SiStripMatchedRecHit2DCollection::DetSet detset = *stripRecHitIdIterator;
+     SiStripRecHit2DCollection::DetSet detset = *stripRecHitIdIterator;
      DetId detId = DetId(detset.detId()); // Get the Detid object
      //unsigned int detType=detId.det();    // det type, tracker=1
      unsigned int subid=detId.subdetId(); //subdetector type, barrel=1, fpix=2
@@ -426,35 +443,41 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       }
       break;
      }
-std::cout<<layer;
-     // const StripGeomDetUnit * theGeomDet = dynamic_cast<const StripGeomDetUnit*> (theTracker.idToDet(detId) );
+    //std::cout<<layer;
+     //const StripGeomDetUnit * theGeomDet = dynamic_cast<const StripGeomDetUnit*> (theTracker.idToDet(detId) );
 
-     // SiStripMatchedRecHit2DCollection::DetSet::const_iterator stripiter=detset.begin();
-     // SiStripMatchedRecHit2DCollection::DetSet::const_iterator stripRechitRangeIteratorEnd   = detset.end();
+     SiStripRecHit2DCollection::DetSet::const_iterator stripiter=detset.begin();
+     SiStripRecHit2DCollection::DetSet::const_iterator stripRechitRangeIteratorEnd   = detset.end();
 
-     // for(;stripiter!=stripRechitRangeIteratorEnd;++stripiter)
-     // //for(SiStripMatchedRecHit2DCollection::DetSet::const_iterator iter=detunit_iterator->begin(), end = detunit_iterator->end(); iter != end; ++iter)
-     // {
-     //  LocalPoint lp = stripiter->localPosition();
-     //  LocalError le = stripiter->localPositionError();
-
-     //  GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
-     //  //theGeomDet->toGlobal(lp).x()
-     //  //theStripDet->toGlobal(hit.localPosition()).x();
-     //  //dynamic_cast<const StripGeomDetUnit*>( theTrackerGeometry->idToDet( hit.geographicalId() ) );
-     //  //std::cout<<"["<<GP.x()<<", "<<GP.y()<<", "<<GP.z()<<"],"<<std::endl;
-     //  //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
-     //  hit_sub_det.push_back(subid);
-     //  hit_layer.push_back(layer);
-     //  hit_global_x.push_back(GP.x());
-     //  hit_global_y.push_back(GP.y());
-     //  hit_global_z.push_back(GP.z());
-     //  hit_local_x.push_back(lp.x());
-     //  hit_local_y.push_back(lp.y());
-     //  hit_local_x_error.push_back(sqrt(le.xx()));
-     //  hit_local_y_error.push_back(sqrt(le.yy()));
-     // }
+     for(;stripiter!=stripRechitRangeIteratorEnd;++stripiter)
+     //for(SiStripMatchedRecHit2DCollection::DetSet::const_iterator iter=detunit_iterator->begin(), end = detunit_iterator->end(); iter != end; ++iter)
+     {
+      const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( stripiter->geographicalId() ) );
+      LocalPoint lp = stripiter->localPosition();
+      LocalError le = stripiter->localPositionError();
+      //std::cout<<lp.x()<<std::endl;
+      GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+      //std::cout<<theGeomDet->toGlobal(lp).x();
+      // //theStripDet->toGlobal(hit.localPosition()).x();
+      // //dynamic_cast<const StripGeomDetUnit*>( theTrackerGeometry->idToDet( hit.geographicalId() ) );
+      // //std::cout<<"["<<GP.x()<<", "<<GP.y()<<", "<<GP.z()<<"],"<<std::endl;
+      // //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
+      //std::cout<<lp.x()<<std::endl;
+      if (stripiter->isValid())
+      {
+       //   std::cout<<lp.x()<<std::endl;
+      hit_sub_det.push_back(subid);
+      hit_layer.push_back(layer);
+      hit_global_x.push_back(GP.x());
+      hit_global_y.push_back(GP.y());
+      hit_global_z.push_back(GP.z());
+      hit_local_x.push_back(lp.x());
+      hit_local_y.push_back(lp.y());
+      hit_local_x_error.push_back(sqrt(le.xx()));
+      hit_local_y_error.push_back(sqrt(le.yy()));}
+     }
   }
+}
 //tracks
   edm::Handle<std::vector<reco::Track> > trackColl;
   iEvent.getByLabel( edm::InputTag("generalTracks") , trackColl);
@@ -489,6 +512,53 @@ std::cout<<layer;
     track_vy.push_back(        trackIterator->vy());
     track_vz.push_back(        trackIterator->vz());
     track_algo.push_back(      (Int_t) trackIterator->algo());
+
+    trackingRecHit_iterator rechit_it = trackIterator->recHitsBegin();
+    trackingRecHit_iterator rechit_end = trackIterator->recHitsEnd();
+    for (;rechit_it!=rechit_end;rechit_it++)
+    {
+      if ((*rechit_it)->isValid())
+      {
+        DetId the_detid = (*rechit_it)->geographicalId();
+        if (the_detid.det()!=1) continue; //only tracker
+        if (the_detid.subdetId()==1 || the_detid.subdetId()==2)
+        {
+          const PixelGeomDetUnit* theGeomDet = dynamic_cast<const PixelGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
+          LocalPoint lp = (*rechit_it)->localPosition();
+          GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+          //std::cout<<GP.x()<<std::endl;
+        }
+        if (the_detid.subdetId()>=3 && the_detid.subdetId()<=6)
+        {
+          const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
+          LocalPoint lp = (*rechit_it)->localPosition();
+          GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+          std::cout<<GP.x()<<std::endl;
+        }
+        //std::cout<<(*rechit_it)->localPosition().x()<<std::endl;
+
+
+std::vector<std::vector<Float_t> > track_hit_global_x;
+      std::vector<std::vector<Float_t> > track_hit_global_y;
+      std::vector<std::vector<Float_t> > track_hit_global_z;
+      std::vector<std::vector<Float_t> > track_hit_local_x;
+      std::vector<std::vector<Float_t> > track_hit_local_y;
+      std::vector<std::vector<Float_t> > track_hit_local_x_error;
+      std::vector<std::vector<Float_t> > track_hit_local_y_error;
+      std::vector<std::vector<UInt_t> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+      std::vector<std::vector<UInt_t> >  track_hit_layer;
+
+  //        id_type rawId() const { return m_id;}
+  // DetId geographicalId() const {return m_id;}
+  
+  // virtual LocalPoint localPosition() const = 0;
+  
+  // virtual LocalError localPositionError() const = 0;
+      }
+      
+
+    }
+
   }
 
   hits_tree->Fill();

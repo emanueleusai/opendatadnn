@@ -30,7 +30,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/step1_qcd8.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
