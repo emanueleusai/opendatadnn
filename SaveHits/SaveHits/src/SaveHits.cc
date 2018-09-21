@@ -78,6 +78,10 @@
 
 #include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h"
 
+#include "SimTracker/TrackerHitAssociation/interface/TrackerHitAssociator.h" 
+#include "SimDataFormats/TrackingHit/interface/PSimHit.h"
+#include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
+
 //
 // class declaration
 //
@@ -100,10 +104,14 @@ class SaveHits : public edm::EDAnalyzer {
       virtual void beginLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
       virtual void endLuminosityBlock(edm::LuminosityBlock const&, edm::EventSetup const&);
 
+      unsigned int getLayer(const DetId& detid) ;
+
       // ----------member data ---------------------------
       TFile * tf1;
       TTree * hits_tree;
       TTree * tracks_tree;
+
+      edm::ParameterSet conf_;
 
       std::vector<Float_t> hit_global_x;
       std::vector<Float_t> hit_global_y;
@@ -172,12 +180,64 @@ class SaveHits : public edm::EDAnalyzer {
 // static data member definitions
 //
 
+unsigned int SaveHits::getLayer(const DetId& detid)
+{
+
+  unsigned int subid=detid.subdetId();
+
+          switch(subid)
+          {
+            case 1://BPIX
+            {
+              PXBDetId pdetId = PXBDetId(detid);
+              return pdetId.layer();
+            }
+
+            case 2://FPIX
+            {
+              PXFDetId pdetId = PXFDetId(detid.rawId());
+              return pdetId.disk();
+            }
+
+            case 3://TIB
+            {
+              TIBDetId pdetId = TIBDetId(detid);
+              return pdetId.layer();
+            }
+            break;
+
+            case 4://TID
+            {
+              TIDDetId pdetId = TIDDetId(detid);
+              return pdetId.wheel();
+            }
+            break;
+
+            case 5://TOB
+            {
+              TOBDetId pdetId = TOBDetId(detid);
+              return pdetId.layer();
+            }
+            break;
+
+            case 6://TEC
+            {
+              TECDetId pdetId = TECDetId(detid);
+              return pdetId.wheel();
+            }
+            break;
+          }
+          return 999;
+
+}
+
 //
 // constructors and destructor
 //
 SaveHits::SaveHits(const edm::ParameterSet& iConfig)
 
 {
+  conf_=iConfig;
    //now do what ever initialization is needed
 
    tf1         = new TFile("savehits_output.root", "RECREATE");  
@@ -231,6 +291,15 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    tracks_tree->Branch("track_vy",&track_vy);
    tracks_tree->Branch("track_vz",&track_vz);
    tracks_tree->Branch("track_algo",&track_algo);
+   tracks_tree->Branch("track_hit_global_x",&track_hit_global_x);
+   tracks_tree->Branch("track_hit_global_y",&track_hit_global_y);
+   tracks_tree->Branch("track_hit_global_z",&track_hit_global_z);
+   tracks_tree->Branch("track_hit_local_x",&track_hit_local_x);
+   tracks_tree->Branch("track_hit_local_y",&track_hit_local_y);
+   tracks_tree->Branch("track_hit_local_x_error",&track_hit_local_x_error);
+   tracks_tree->Branch("track_hit_local_y_error",&track_hit_local_y_error);
+   tracks_tree->Branch("track_hit_sub_det",&track_hit_sub_det); //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+   tracks_tree->Branch("track_hit_layer",&track_hit_layer);
 
 
 }
@@ -306,6 +375,15 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   track_vy.clear();
   track_vz.clear();
   track_algo.clear();
+  track_hit_global_x.clear();
+  track_hit_global_y.clear();
+  track_hit_global_z.clear();
+  track_hit_local_x.clear();
+  track_hit_local_y.clear();
+  track_hit_local_x_error.clear();
+  track_hit_local_y_error.clear();
+  track_hit_sub_det.clear();
+  track_hit_layer.clear();
 
   edm::ESHandle<TrackerGeometry> geom;
   iSetup.get<TrackerDigiGeometryRecord>().get( geom );
@@ -323,9 +401,13 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   {
     SiPixelRecHitCollection::DetSet detset = *recHitIdIterator;
     DetId detId = DetId(detset.detId()); // Get the Detid object
+
+    TrackerHitAssociator  associate(iEvent,conf_);
+
+
     //unsigned int detType=detId.det();    // det type, tracker=1
     unsigned int subid=detId.subdetId(); //subdetector type, barrel=1, fpix=2
-    unsigned int layer = 100;
+    unsigned int layer = 999;
 
     if(subid==1)
     {  // Subdet it, pix barrel=1 
@@ -349,6 +431,27 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     for(;pixeliter!=rechitRangeIteratorEnd;++pixeliter)
     {//loop on the rechit
 
+      std::vector<PSimHit> matched;
+      PSimHit closest;
+      float mindist = 999999;
+      float dist;
+      matched = associate.associateHit(*pixeliter);
+      if(!matched.empty())
+      {
+        std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
+        if(matched.size()>1) std::cout << " matched = " << matched.size() << std::endl;
+        for(std::vector<PSimHit>::const_iterator m=matched.begin(); m<matched.end(); m++)
+        {
+          std::cout << " simtrack ID = " << (*m).trackId() << " Simhit x = " << (*m).localPosition() << std::endl;
+          dist = fabs(pixeliter->localPosition().x() - (*m).localPosition().x());
+          if(dist<mindist)
+          {
+            mindist = dist;
+            closest = (*m);
+          }
+        }  
+        std::cout << " Closest Simhit = " << closest.localPosition() << std::endl;
+      }
 
       LocalPoint lp = pixeliter->localPosition();
       LocalError le = pixeliter->localPositionError();
@@ -513,6 +616,17 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
     track_vz.push_back(        trackIterator->vz());
     track_algo.push_back(      (Int_t) trackIterator->algo());
 
+    std::vector<Float_t> this_track_hit_global_x;
+    std::vector<Float_t> this_track_hit_global_y;
+    std::vector<Float_t> this_track_hit_global_z;
+    std::vector<Float_t> this_track_hit_local_x;
+    std::vector<Float_t> this_track_hit_local_y;
+    std::vector<Float_t> this_track_hit_local_x_error;
+    std::vector<Float_t> this_track_hit_local_y_error;
+    std::vector<UInt_t> this_track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+    std::vector<UInt_t> this_track_hit_layer;
+
+
     trackingRecHit_iterator rechit_it = trackIterator->recHitsBegin();
     trackingRecHit_iterator rechit_end = trackIterator->recHitsEnd();
     for (;rechit_it!=rechit_end;rechit_it++)
@@ -521,32 +635,38 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
       {
         DetId the_detid = (*rechit_it)->geographicalId();
         if (the_detid.det()!=1) continue; //only tracker
-        if (the_detid.subdetId()==1 || the_detid.subdetId()==2)
+        unsigned int subid= the_detid.subdetId();
+        LocalPoint lp;
+        GlobalPoint GP;
+        LocalError le;
+        if (subid==1 || subid==2)
         {
           const PixelGeomDetUnit* theGeomDet = dynamic_cast<const PixelGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
-          LocalPoint lp = (*rechit_it)->localPosition();
-          GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+          lp = (*rechit_it)->localPosition();
+          le = (*rechit_it)->localPositionError();
+          GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
           //std::cout<<GP.x()<<std::endl;
+
         }
-        if (the_detid.subdetId()>=3 && the_detid.subdetId()<=6)
+        if (subid>=3 && subid<=6)
         {
           const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
-          LocalPoint lp = (*rechit_it)->localPosition();
-          GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
-          std::cout<<GP.x()<<std::endl;
+          lp = (*rechit_it)->localPosition();
+          le = (*rechit_it)->localPositionError();
+          GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+
+          //std::cout<<GP.x()<<std::endl;
         }
+        this_track_hit_layer.push_back(getLayer(the_detid));
+        this_track_hit_sub_det.push_back(subid);
+        this_track_hit_global_x.push_back(GP.x());
+        this_track_hit_global_y.push_back(GP.y());
+        this_track_hit_global_z.push_back(GP.z());
+        this_track_hit_local_x.push_back(lp.x());
+        this_track_hit_local_y.push_back(lp.y());
+        this_track_hit_local_x_error.push_back(sqrt(le.xx()));
+        this_track_hit_local_y_error.push_back(sqrt(le.yy()));
         //std::cout<<(*rechit_it)->localPosition().x()<<std::endl;
-
-
-std::vector<std::vector<Float_t> > track_hit_global_x;
-      std::vector<std::vector<Float_t> > track_hit_global_y;
-      std::vector<std::vector<Float_t> > track_hit_global_z;
-      std::vector<std::vector<Float_t> > track_hit_local_x;
-      std::vector<std::vector<Float_t> > track_hit_local_y;
-      std::vector<std::vector<Float_t> > track_hit_local_x_error;
-      std::vector<std::vector<Float_t> > track_hit_local_y_error;
-      std::vector<std::vector<UInt_t> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
-      std::vector<std::vector<UInt_t> >  track_hit_layer;
 
   //        id_type rawId() const { return m_id;}
   // DetId geographicalId() const {return m_id;}
@@ -557,7 +677,17 @@ std::vector<std::vector<Float_t> > track_hit_global_x;
       }
       
 
-    }
+    } //track rechits loop
+
+   track_hit_global_x.push_back(this_track_hit_global_x);
+   track_hit_global_y.push_back(this_track_hit_global_y);
+   track_hit_global_z.push_back(this_track_hit_global_z);
+   track_hit_local_x.push_back(this_track_hit_local_x);
+   track_hit_local_y.push_back(this_track_hit_local_y);
+   track_hit_local_x_error.push_back(this_track_hit_local_x_error);
+   track_hit_local_y_error.push_back(this_track_hit_local_y_error);
+   track_hit_sub_det.push_back(this_track_hit_sub_det);
+   track_hit_layer.push_back(this_track_hit_layer);
 
   }
 

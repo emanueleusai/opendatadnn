@@ -84,7 +84,30 @@ process.validation_step = cms.EndPath(process.validation_prod)
 process.endjob_step = cms.EndPath(process.endOfProcess)
 process.AODSIMoutput_step = cms.EndPath(process.AODSIMoutput)
 #process.DQMoutput_step = cms.EndPath(process.DQMoutput)
-process.demo = cms.EDAnalyzer('SaveHits'
+process.demo = cms.EDAnalyzer('SaveHits',
+
+
+associateRecoTracks = cms.bool(False),
+   associateHitbySimTrack = cms.bool(False),
+   associatePixel = cms.bool(True),       
+   associateStrip = cms.bool(True),
+   usePhase2Tracker = cms.bool(False),
+   pixelSimLinkSrc = cms.InputTag("simSiPixelDigis"),
+   stripSimLinkSrc = cms.InputTag("simSiStripDigis"),
+   phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker"),
+   ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',
+                         'TrackerHitsPixelBarrelHighTof',
+                         'TrackerHitsPixelEndcapLowTof',
+                         'TrackerHitsPixelEndcapHighTof',
+                         'TrackerHitsTIBLowTof',
+                         'TrackerHitsTIBHighTof',
+                         'TrackerHitsTIDLowTof',
+                         'TrackerHitsTIDHighTof',
+                         'TrackerHitsTOBLowTof',
+                         'TrackerHitsTOBHighTof',
+                         'TrackerHitsTECLowTof',
+                         'TrackerHitsTECHighTof')
+    
 )
 process.p = cms.Path(process.demo)
 # Schedule definition

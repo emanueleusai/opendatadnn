@@ -31,7 +31,7 @@ process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
     fileNames = cms.untracked.vstring(
         # 'file:step0_qcd6.root'
-        'file:step0_qcd8.root' 
+        'file:step0_ttbar8.root' 
         ),
     setRunNumber = cms.untracked.uint32(206859)
 )
@@ -54,7 +54,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     outputCommands = process.RAWSIMEventContent.outputCommands,
     # fileName = cms.untracked.string('file:step1_qcd6.root'),
-    fileName = cms.untracked.string('file:step1_qcd8.root'),
+    fileName = cms.untracked.string('file:step1.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RAW')

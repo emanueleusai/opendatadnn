@@ -1,0 +1,7 @@
+crab resubmit crab_projects/crab_open_qcd_p8_step1_01 --maxjobruntime 4320
+crab resubmit crab_projects/crab_open_qcd_p8_step1_02 --maxjobruntime 4320
+crab resubmit crab_projects/crab_open_ttbar_p8_step1_01 --maxjobruntime 4320
+crab resubmit crab_projects/crab_open_ttbar_p8_step1_02 --maxjobruntime 4320
+crab resubmit crab_projects/crab_open_qcd_p8_03
+crab resubmit crab_projects/crab_open_ttbar_p8_03
+
