@@ -22,15 +22,16 @@ process.load('Configuration.StandardSequences.Validation_cff')
 process.load('DQMOffline.Configuration.DQMOfflineMC_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
+process.load("RecoLocalTracker.SiPixelRecHits.SiPixelRecHits_cfi")
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1)
+    input = cms.untracked.int32(10)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
@@ -87,14 +88,14 @@ process.AODSIMoutput_step = cms.EndPath(process.AODSIMoutput)
 process.demo = cms.EDAnalyzer('SaveHits',
 
 
-associateRecoTracks = cms.bool(False),
-   associateHitbySimTrack = cms.bool(False),
+   associateRecoTracks = cms.bool(True),
+   associateHitbySimTrack = cms.bool(True),
    associatePixel = cms.bool(True),       
    associateStrip = cms.bool(True),
-   usePhase2Tracker = cms.bool(False),
+   #usePhase2Tracker = cms.bool(False),
    pixelSimLinkSrc = cms.InputTag("simSiPixelDigis"),
    stripSimLinkSrc = cms.InputTag("simSiStripDigis"),
-   phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker"),
+   #phase2TrackerSimLinkSrc = cms.InputTag("simSiPixelDigis", "Tracker"),
    ROUList = cms.vstring('TrackerHitsPixelBarrelLowTof',
                          'TrackerHitsPixelBarrelHighTof',
                          'TrackerHitsPixelEndcapLowTof',

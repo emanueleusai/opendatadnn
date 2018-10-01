@@ -81,6 +81,7 @@
 #include "SimTracker/TrackerHitAssociation/interface/TrackerHitAssociator.h" 
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
+#include "SimDataFormats/Track/interface/SimTrack.h"
 
 //
 // class declaration
@@ -389,6 +390,8 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   iSetup.get<TrackerDigiGeometryRecord>().get( geom );
   const TrackerGeometry& theTracker(*geom);
 
+  edm::Handle<std::vector<SimTrack> > simtracks;
+  iEvent.getByLabel( edm::InputTag("g4SimHits") , simtracks);
 
 //sipixel
   edm::Handle<SiPixelRecHitCollection> recHitColl;
@@ -431,17 +434,20 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     for(;pixeliter!=rechitRangeIteratorEnd;++pixeliter)
     {//loop on the rechit
 
-      std::vector<PSimHit> matched;
-      PSimHit closest;
+      std::vector<SimHitIdpr> matched;
+      SimHitIdpr closest;
       float mindist = 999999;
       float dist;
-      matched = associate.associateHit(*pixeliter);
+      matched = associate.associateHitId(*pixeliter);
+      // if(!matched.empty()) std::cout<<"passing here"<<std::endl;
       if(!matched.empty())
       {
         std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
         if(matched.size()>1) std::cout << " matched = " << matched.size() << std::endl;
-        for(std::vector<PSimHit>::const_iterator m=matched.begin(); m<matched.end(); m++)
+        for(std::vector<SimHitIdpr>::const_iterator m=matched.begin(); m<matched.end(); m++)
         {
+          for(std::vector<SimTrack>::const_iterator st=)
+          m->first
           std::cout << " simtrack ID = " << (*m).trackId() << " Simhit x = " << (*m).localPosition() << std::endl;
           dist = fabs(pixeliter->localPosition().x() - (*m).localPosition().x());
           if(dist<mindist)
