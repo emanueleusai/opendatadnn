@@ -82,6 +82,9 @@
 #include "SimDataFormats/TrackingHit/interface/PSimHit.h"
 #include "SimDataFormats/TrackingHit/interface/PSimHitContainer.h"
 #include "SimDataFormats/Track/interface/SimTrack.h"
+#include "DataFormats/HepMCCandidate/interface/GenParticle.h"
+#include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
+#include "DataFormats/JetReco/interface/GenJet.h"
 
 //
 // class declaration
@@ -110,66 +113,98 @@ class SaveHits : public edm::EDAnalyzer {
       // ----------member data ---------------------------
       TFile * tf1;
       TTree * hits_tree;
-      TTree * tracks_tree;
+      //TTree * tracks_tree;
 
       edm::ParameterSet conf_;
 
-      std::vector<Float_t> hit_global_x;
-      std::vector<Float_t> hit_global_y;
-      std::vector<Float_t> hit_global_z;
-      std::vector<Float_t> hit_local_x;
-      std::vector<Float_t> hit_local_y;
-      std::vector<Float_t> hit_local_x_error;
-      std::vector<Float_t> hit_local_y_error;
-      // std::vector<Float_t> hit_cluster_global_x;
-      // std::vector<Float_t> hit_cluster_global_y;
-      // std::vector<Float_t> hit_cluster_global_z;
-      // std::vector<Float_t> hit_cluster_local_x;
-      // std::vector<Float_t> hit_cluster_local_y;
-      // std::vector<Float_t> hit_cluster_local_x_error;
-      // std::vector<Float_t> hit_cluster_local_y_error;
-      // std::vector<Float_t> hit_cluster_charge;
-      // std::vector<UInt_t>  hit_cluster_size;
-      // std::vector<UInt_t>  hit_cluster_size_x;
-      // std::vector<UInt_t>  hit_cluster_size_y;
-      std::vector<UInt_t>  hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
-      std::vector<UInt_t>  hit_layer;
+      std::vector<float> hit_global_x;
+      std::vector<float> hit_global_y;
+      std::vector<float> hit_global_z;
+      std::vector<float> hit_local_x;
+      std::vector<float> hit_local_y;
+      std::vector<float> hit_local_x_error;
+      std::vector<float> hit_local_y_error;
+      // std::vector<float> hit_cluster_global_x;
+      // std::vector<float> hit_cluster_global_y;
+      // std::vector<float> hit_cluster_global_z;
+      // std::vector<float> hit_cluster_local_x;
+      // std::vector<float> hit_cluster_local_y;
+      // std::vector<float> hit_cluster_local_x_error;
+      // std::vector<float> hit_cluster_local_y_error;
+      // std::vector<float> hit_cluster_charge;
+      // std::vector<unsigned int>  hit_cluster_size;
+      // std::vector<unsigned int>  hit_cluster_size_x;
+      // std::vector<unsigned int>  hit_cluster_size_y;
+      std::vector<unsigned int>  hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+      std::vector<unsigned int>  hit_layer;
+
+      std::vector<unsigned int>  hit_simtrack_id;
+      std::vector<bool>          hit_simtrack_match;
+      std::vector<unsigned int>  hit_genparticle_id;
+      std::vector<int>           hit_pdgid;
+      std::vector<unsigned int>  hit_recotrack_id;
+      std::vector<bool>          hit_recotrack_match;
+
+      std::vector<unsigned int> simtrack_id;
+      std::vector<int>          simtrack_pdgid;
+      std::vector<int>          simtrack_charge;
+      std::vector<TLorentzVector> simtrack_p4;
+      std::vector<unsigned int> simtrack_vtxid;
+      std::vector<unsigned int> simtrack_genid;
+
+      std::vector<int> genpart_collid;
+      std::vector<int> genpart_pdgid;
+      std::vector<int> genpart_charge;
+      std::vector<TLorentzVector> genpart_p4;
+
+      std::vector<TLorentzVector> genjet_p4;
+      std::vector<float> genjet_emEnergy;
+      std::vector<float> genjet_hadEnergy;
+      std::vector<float> genjet_invisibleEnergy;
+      std::vector<float> genjet_auxiliaryEnergy;
+      std::vector<std::vector<int> > genjet_const_collid;
+      std::vector<std::vector<int> > genjet_const_pdgid;
+      std::vector<std::vector<int> > genjet_const_charge;
+      std::vector<std::vector<TLorentzVector> > genjet_const_p4;
 
 
-      std::vector<Float_t> track_chi2;
-      std::vector<Float_t> track_ndof;
-      std::vector<Float_t> track_chi2ndof;
-      std::vector<Float_t> track_charge;
-      std::vector<Float_t> track_momentum;
-      std::vector<Float_t> track_pt;
-      std::vector<Float_t> track_pterr;
-      std::vector<UInt_t>  track_hitsvalid;
-      std::vector<UInt_t>  track_hitslost;
-      std::vector<Float_t> track_theta;
-      std::vector<Float_t> track_thetaerr;
-      std::vector<Float_t> track_phi;
-      std::vector<Float_t> track_phierr;
-      std::vector<Float_t> track_eta;
-      std::vector<Float_t> track_etaerr;
-      std::vector<Float_t> track_dxy;
-      std::vector<Float_t> track_dxyerr;
-      std::vector<Float_t> track_dsz;
-      std::vector<Float_t> track_dszerr;
-      std::vector<Float_t> track_qoverp;
-      std::vector<Float_t> track_qoverperr;
-      std::vector<Float_t> track_vx;
-      std::vector<Float_t> track_vy;
-      std::vector<Float_t> track_vz;
+
+
+      std::vector<float> track_chi2;
+      std::vector<float> track_ndof;
+      std::vector<float> track_chi2ndof;
+      std::vector<float> track_charge;
+      std::vector<float> track_momentum;
+      std::vector<float> track_pt;
+      std::vector<float> track_pterr;
+      std::vector<unsigned int>  track_hitsvalid;
+      std::vector<unsigned int>  track_hitslost;
+      std::vector<float> track_theta;
+      std::vector<float> track_thetaerr;
+      std::vector<float> track_phi;
+      std::vector<float> track_phierr;
+      std::vector<float> track_eta;
+      std::vector<float> track_etaerr;
+      std::vector<float> track_dxy;
+      std::vector<float> track_dxyerr;
+      std::vector<float> track_dsz;
+      std::vector<float> track_dszerr;
+      std::vector<float> track_qoverp;
+      std::vector<float> track_qoverperr;
+      std::vector<float> track_vx;
+      std::vector<float> track_vy;
+      std::vector<float> track_vz;
       std::vector<Int_t>   track_algo;
-      std::vector<std::vector<Float_t> > track_hit_global_x;
-      std::vector<std::vector<Float_t> > track_hit_global_y;
-      std::vector<std::vector<Float_t> > track_hit_global_z;
-      std::vector<std::vector<Float_t> > track_hit_local_x;
-      std::vector<std::vector<Float_t> > track_hit_local_y;
-      std::vector<std::vector<Float_t> > track_hit_local_x_error;
-      std::vector<std::vector<Float_t> > track_hit_local_y_error;
-      std::vector<std::vector<UInt_t> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
-      std::vector<std::vector<UInt_t> >  track_hit_layer;
+      std::vector<std::vector<float> > track_hit_global_x;
+      std::vector<std::vector<float> > track_hit_global_y;
+      std::vector<std::vector<float> > track_hit_global_z;
+      std::vector<std::vector<float> > track_hit_local_x;
+      std::vector<std::vector<float> > track_hit_local_y;
+      std::vector<std::vector<float> > track_hit_local_x_error;
+      std::vector<std::vector<float> > track_hit_local_y_error;
+      std::vector<std::vector<unsigned int> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+      std::vector<std::vector<unsigned int> >  track_hit_layer;
+
 
 };
 
@@ -243,7 +278,7 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
 
    tf1         = new TFile("savehits_output.root", "RECREATE");  
    hits_tree   = new TTree("hits_tree","hits_tree");
-   tracks_tree = new TTree("tracks_tree","tracks_tree");
+   //tracks_tree = new TTree("tracks_tree","tracks_tree");
 
    hits_tree->Branch("hit_global_x",&hit_global_x);
    hits_tree->Branch("hit_global_y",&hit_global_y);
@@ -266,41 +301,73 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    hits_tree->Branch("hit_sub_det",&hit_sub_det);
    hits_tree->Branch("hit_layer",&hit_layer);
 
+   hits_tree->Branch("hit_simtrack_id",&hit_simtrack_id);
+   hits_tree->Branch("hit_simtrack_match",&hit_simtrack_match);
+   hits_tree->Branch("hit_genparticle_id",&hit_genparticle_id);
+   hits_tree->Branch("hit_pdgid",&hit_pdgid);
+   hits_tree->Branch("hit_recotrack_id",&hit_recotrack_id);
+   hits_tree->Branch("hit_recotrack_match",&hit_recotrack_match);
 
-   tracks_tree->Branch("track_chi2",&track_chi2);
-   tracks_tree->Branch("track_ndof",&track_ndof);
-   tracks_tree->Branch("track_chi2ndof",&track_chi2ndof);
-   tracks_tree->Branch("track_charge",&track_charge);
-   tracks_tree->Branch("track_momentum",&track_momentum);
-   tracks_tree->Branch("track_pt",&track_pt);
-   tracks_tree->Branch("track_pterr",&track_pterr);
-   tracks_tree->Branch("track_hitsvalid",&track_hitsvalid);
-   tracks_tree->Branch("track_hitslost",&track_hitslost);
-   tracks_tree->Branch("track_theta",&track_theta);
-   tracks_tree->Branch("track_thetaerr",&track_thetaerr);
-   tracks_tree->Branch("track_phi",&track_phi);
-   tracks_tree->Branch("track_phierr",&track_phierr);
-   tracks_tree->Branch("track_eta",&track_eta);
-   tracks_tree->Branch("track_etaerr",&track_etaerr);
-   tracks_tree->Branch("track_dxy",&track_dxy);
-   tracks_tree->Branch("track_dxyerr",&track_dxyerr);
-   tracks_tree->Branch("track_dsz",&track_dsz);
-   tracks_tree->Branch("track_dszerr",&track_dszerr);
-   tracks_tree->Branch("track_qoverp",&track_qoverp);
-   tracks_tree->Branch("track_qoverperr",&track_qoverperr);
-   tracks_tree->Branch("track_vx",&track_vx);
-   tracks_tree->Branch("track_vy",&track_vy);
-   tracks_tree->Branch("track_vz",&track_vz);
-   tracks_tree->Branch("track_algo",&track_algo);
-   tracks_tree->Branch("track_hit_global_x",&track_hit_global_x);
-   tracks_tree->Branch("track_hit_global_y",&track_hit_global_y);
-   tracks_tree->Branch("track_hit_global_z",&track_hit_global_z);
-   tracks_tree->Branch("track_hit_local_x",&track_hit_local_x);
-   tracks_tree->Branch("track_hit_local_y",&track_hit_local_y);
-   tracks_tree->Branch("track_hit_local_x_error",&track_hit_local_x_error);
-   tracks_tree->Branch("track_hit_local_y_error",&track_hit_local_y_error);
-   tracks_tree->Branch("track_hit_sub_det",&track_hit_sub_det); //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
-   tracks_tree->Branch("track_hit_layer",&track_hit_layer);
+
+
+   hits_tree->Branch("simtrack_id",&simtrack_id);
+   hits_tree->Branch("simtrack_pdgid",&simtrack_pdgid);
+   hits_tree->Branch("simtrack_charge",&simtrack_charge);
+   hits_tree->Branch("simtrack_p4",&simtrack_p4);
+   hits_tree->Branch("simtrack_vtxid",&simtrack_vtxid);
+   hits_tree->Branch("simtrack_genid",&simtrack_genid);
+
+   hits_tree->Branch("genpart_collid",&genpart_collid);
+   hits_tree->Branch("genpart_pdgid",&genpart_pdgid);
+   hits_tree->Branch("genpart_charge",&genpart_charge);
+   hits_tree->Branch("genpart_p4",&genpart_p4);
+
+   hits_tree->Branch("genjet_p4",&genjet_p4);
+   hits_tree->Branch("genjet_emEnergy",&genjet_emEnergy);
+   hits_tree->Branch("genjet_hadEnergy",&genjet_hadEnergy);
+   hits_tree->Branch("genjet_invisibleEnergy",&genjet_invisibleEnergy);
+   hits_tree->Branch("genjet_auxiliaryEnergy",&genjet_auxiliaryEnergy);
+   hits_tree->Branch("genjet_const_collid",&genjet_const_collid);
+   hits_tree->Branch("genjet_const_pdgid",&genjet_const_pdgid);
+   hits_tree->Branch("genjet_const_charge",&genjet_const_charge);
+   hits_tree->Branch("genjet_const_p4",&genjet_const_p4);
+
+
+
+   hits_tree->Branch("track_chi2",&track_chi2);
+   hits_tree->Branch("track_ndof",&track_ndof);
+   hits_tree->Branch("track_chi2ndof",&track_chi2ndof);
+   hits_tree->Branch("track_charge",&track_charge);
+   hits_tree->Branch("track_momentum",&track_momentum);
+   hits_tree->Branch("track_pt",&track_pt);
+   hits_tree->Branch("track_pterr",&track_pterr);
+   hits_tree->Branch("track_hitsvalid",&track_hitsvalid);
+   hits_tree->Branch("track_hitslost",&track_hitslost);
+   hits_tree->Branch("track_theta",&track_theta);
+   hits_tree->Branch("track_thetaerr",&track_thetaerr);
+   hits_tree->Branch("track_phi",&track_phi);
+   hits_tree->Branch("track_phierr",&track_phierr);
+   hits_tree->Branch("track_eta",&track_eta);
+   hits_tree->Branch("track_etaerr",&track_etaerr);
+   hits_tree->Branch("track_dxy",&track_dxy);
+   hits_tree->Branch("track_dxyerr",&track_dxyerr);
+   hits_tree->Branch("track_dsz",&track_dsz);
+   hits_tree->Branch("track_dszerr",&track_dszerr);
+   hits_tree->Branch("track_qoverp",&track_qoverp);
+   hits_tree->Branch("track_qoverperr",&track_qoverperr);
+   hits_tree->Branch("track_vx",&track_vx);
+   hits_tree->Branch("track_vy",&track_vy);
+   hits_tree->Branch("track_vz",&track_vz);
+   hits_tree->Branch("track_algo",&track_algo);
+   hits_tree->Branch("track_hit_global_x",&track_hit_global_x);
+   hits_tree->Branch("track_hit_global_y",&track_hit_global_y);
+   hits_tree->Branch("track_hit_global_z",&track_hit_global_z);
+   hits_tree->Branch("track_hit_local_x",&track_hit_local_x);
+   hits_tree->Branch("track_hit_local_y",&track_hit_local_y);
+   hits_tree->Branch("track_hit_local_x_error",&track_hit_local_x_error);
+   hits_tree->Branch("track_hit_local_y_error",&track_hit_local_y_error);
+   hits_tree->Branch("track_hit_sub_det",&track_hit_sub_det); //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+   hits_tree->Branch("track_hit_layer",&track_hit_layer);
 
 
 }
@@ -313,7 +380,7 @@ SaveHits::~SaveHits()
    // (e.g. close files, deallocate resources etc.)
   tf1->cd();
   hits_tree->Write();
-  tracks_tree->Write();
+  //tracks_tree->Write();
   tf1->Write();
   tf1->Close(); 
 }
@@ -350,6 +417,34 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   hit_sub_det.clear();
   hit_layer.clear();
 
+  hit_simtrack_id.clear();
+  hit_simtrack_match.clear();
+  hit_genparticle_id.clear();
+  hit_pdgid.clear();
+  hit_recotrack_id.clear();
+  hit_recotrack_match.clear();
+
+  simtrack_id.clear();
+  simtrack_pdgid.clear();
+  simtrack_charge.clear();
+  simtrack_p4.clear();
+  simtrack_vtxid.clear();
+  simtrack_genid.clear();
+
+  genpart_collid.clear();
+  genpart_pdgid.clear();
+  genpart_charge.clear();
+  genpart_p4.clear();
+
+  genjet_p4.clear();
+  genjet_emEnergy.clear();
+  genjet_hadEnergy.clear();
+  genjet_invisibleEnergy.clear();
+  genjet_auxiliaryEnergy.clear();
+  genjet_const_collid.clear();
+  genjet_const_pdgid.clear();
+  genjet_const_charge.clear();
+  genjet_const_p4.clear();
 
   track_chi2.clear();
   track_ndof.clear();
@@ -390,9 +485,6 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   iSetup.get<TrackerDigiGeometryRecord>().get( geom );
   const TrackerGeometry& theTracker(*geom);
 
-  edm::Handle<std::vector<SimTrack> > simtracks;
-  iEvent.getByLabel( edm::InputTag("g4SimHits") , simtracks);
-
 //sipixel
   edm::Handle<SiPixelRecHitCollection> recHitColl;
   iEvent.getByLabel( edm::InputTag("siPixelRecHits") , recHitColl);
@@ -410,22 +502,22 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 
     //unsigned int detType=detId.det();    // det type, tracker=1
     unsigned int subid=detId.subdetId(); //subdetector type, barrel=1, fpix=2
-    unsigned int layer = 999;
+    unsigned int layer = getLayer(detId);
 
-    if(subid==1)
-    {  // Subdet it, pix barrel=1 
+    // if(subid==1)
+    // {  // Subdet it, pix barrel=1 
       
-      PXBDetId pdetId = PXBDetId(detId);
-      // unsigned int detTypeP=pdetId.det();
-      // unsigned int subidP=pdetId.subdetId();
-      // Barell layer = 1,2,3
-      layer=pdetId.layer();
-    }  
-    else
-    {
-      PXFDetId pdetId = PXFDetId(detId.rawId());
-      layer=pdetId.disk(); //1,2,3
-    } // end BPix FPix if
+    //   PXBDetId pdetId = PXBDetId(detId);
+    //   // unsigned int detTypeP=pdetId.det();
+    //   // unsigned int subidP=pdetId.subdetId();
+    //   // Barell layer = 1,2,3
+    //   layer=pdetId.layer();
+    // }  
+    // else
+    // {
+    //   PXFDetId pdetId = PXFDetId(detId.rawId());
+    //   layer=pdetId.disk(); //1,2,3
+    // } // end BPix FPix if
 
     const PixelGeomDetUnit * theGeomDet = dynamic_cast<const PixelGeomDetUnit*> (theTracker.idToDet(detId) );
 
@@ -435,28 +527,43 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     {//loop on the rechit
 
       std::vector<SimHitIdpr> matched;
-      SimHitIdpr closest;
-      float mindist = 999999;
-      float dist;
+      // SimHitIdpr closest;
+      // float mindist = 999999;
+      // float dist;
       matched = associate.associateHitId(*pixeliter);
       // if(!matched.empty()) std::cout<<"passing here"<<std::endl;
+      std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
       if(!matched.empty())
       {
-        std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
-        if(matched.size()>1) std::cout << " matched = " << matched.size() << std::endl;
+        std::cout << " matched = " << matched.size() << std::endl;
         for(std::vector<SimHitIdpr>::const_iterator m=matched.begin(); m<matched.end(); m++)
         {
-          for(std::vector<SimTrack>::const_iterator st=)
-          m->first
-          std::cout << " simtrack ID = " << (*m).trackId() << " Simhit x = " << (*m).localPosition() << std::endl;
-          dist = fabs(pixeliter->localPosition().x() - (*m).localPosition().x());
-          if(dist<mindist)
+          bool found = false;
+          for(std::vector<SimTrack>::const_iterator st=(simtracks.product())->begin();st<(simtracks.product())->end();st++)
           {
-            mindist = dist;
-            closest = (*m);
+            if (m->first==st->trackId())
+            {
+              std::cout<<m->second.rawId()<<" "<<m->first<<" "<<st->type()<<" "<<st->genpartIndex()<<std::endl;
+              found=true;
+              break;
+            }
+            // st->type(); //pid
+            // st->genpartIndex();
+            // st->noGenpart();
           }
+          if (!found)
+          {
+            std::cout<<"no simtrack found, id was:"<<m->first<<" "<<m->second.rawId()<<std::endl;
+          }
+          // std::cout << " simtrack ID = " << (*m).trackId() << " Simhit x = " << (*m).localPosition() << std::endl;
+          // dist = fabs(pixeliter->localPosition().x() - (*m).localPosition().x());
+          // if(dist<mindist)
+          // {
+          //   mindist = dist;
+          //   closest = (*m);
+          // }
         }  
-        std::cout << " Closest Simhit = " << closest.localPosition() << std::endl;
+        //std::cout << " Closest Simhit = " << closest.localPosition() << std::endl;
       }
 
       LocalPoint lp = pixeliter->localPosition();
@@ -484,6 +591,8 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         hit_local_y.push_back(lp.y());
         hit_local_x_error.push_back(sqrt(le.xx()));
         hit_local_y_error.push_back(sqrt(le.yy()));
+        hit_recotrack_id.push_back(0);
+        hit_recotrack_match.push_back(false);
       }
       // hit_cluster_global_x.push_back();
       // hit_cluster_global_y.push_back();
@@ -520,38 +629,38 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
      DetId detId = DetId(detset.detId()); // Get the Detid object
      //unsigned int detType=detId.det();    // det type, tracker=1
      unsigned int subid=detId.subdetId(); //subdetector type, barrel=1, fpix=2
-     unsigned int layer = 100;
+     unsigned int layer = getLayer(detId);
 
-     switch(subid)
-     {
-      case 3://TIB
-      {
-        TIBDetId pdetId = TIBDetId(detId);
-        layer=pdetId.layer();
-      }
-      break;
+     // switch(subid)
+     // {
+     //  case 3://TIB
+     //  {
+     //    TIBDetId pdetId = TIBDetId(detId);
+     //    layer=pdetId.layer();
+     //  }
+     //  break;
 
-      case 4://TID
-      {
-        TIDDetId pdetId = TIDDetId(detId);
-        layer=pdetId.wheel();
-      }
-      break;
+     //  case 4://TID
+     //  {
+     //    TIDDetId pdetId = TIDDetId(detId);
+     //    layer=pdetId.wheel();
+     //  }
+     //  break;
 
-      case 5://TOB
-      {
-        TOBDetId pdetId = TOBDetId(detId);
-        layer=pdetId.layer();
-      }
-      break;
+     //  case 5://TOB
+     //  {
+     //    TOBDetId pdetId = TOBDetId(detId);
+     //    layer=pdetId.layer();
+     //  }
+     //  break;
 
-      case 6://TEC
-      {
-        TECDetId pdetId = TECDetId(detId);
-        layer=pdetId.wheel();
-      }
-      break;
-     }
+     //  case 6://TEC
+     //  {
+     //    TECDetId pdetId = TECDetId(detId);
+     //    layer=pdetId.wheel();
+     //  }
+     //  break;
+     // }
     //std::cout<<layer;
      //const StripGeomDetUnit * theGeomDet = dynamic_cast<const StripGeomDetUnit*> (theTracker.idToDet(detId) );
 
@@ -575,18 +684,88 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
       if (stripiter->isValid())
       {
        //   std::cout<<lp.x()<<std::endl;
-      hit_sub_det.push_back(subid);
-      hit_layer.push_back(layer);
-      hit_global_x.push_back(GP.x());
-      hit_global_y.push_back(GP.y());
-      hit_global_z.push_back(GP.z());
-      hit_local_x.push_back(lp.x());
-      hit_local_y.push_back(lp.y());
-      hit_local_x_error.push_back(sqrt(le.xx()));
-      hit_local_y_error.push_back(sqrt(le.yy()));}
+        hit_sub_det.push_back(subid);
+        hit_layer.push_back(layer);
+        hit_global_x.push_back(GP.x());
+        hit_global_y.push_back(GP.y());
+        hit_global_z.push_back(GP.z());
+        hit_local_x.push_back(lp.x());
+        hit_local_y.push_back(lp.y());
+        hit_local_x_error.push_back(sqrt(le.xx()));
+        hit_local_y_error.push_back(sqrt(le.yy()));
+        hit_recotrack_id.push_back(0);
+        hit_recotrack_match.push_back(false);
+      }
      }
   }
 }
+
+
+//sim tracks
+  edm::Handle<std::vector<SimTrack> > simtracks;
+  iEvent.getByLabel( edm::InputTag("g4SimHits") , simtracks);
+  std::vector<reco::Track>::const_iterator simtrackIterator      = (simtracks.product())->begin();
+  std::vector<reco::Track>::const_iterator simtrackIteratorEnd   = (simtracks.product())->end();
+
+  for ( ; simtrackIterator != simtrackIteratorEnd; simtrackIterator++)
+  {
+
+    simtrack_id.push_back();
+    simtrack_pdgid.push_back();
+    simtrack_charge.push_back();
+    simtrack_p4.push_back();
+    simtrack_vtxid.push_back();
+    simtrack_genid.push_back();
+
+  }
+
+//genparticles
+  edm::Handle<std::vector<reco::GenParticle> > genparticles;
+  iEvent.getByLabel( edm::InputTag("genParticles") , genparticles);
+  std::vector<reco::Track>::const_iterator genpartIterator      = (genparticles.product())->begin();
+  std::vector<reco::Track>::const_iterator genpartIteratorEnd   = (genparticles.product())->end();
+
+  for ( ; genpartIterator != genpartIteratorEnd; genpartIterator++)
+  {
+
+    genpart_collid.push_back();
+    genpart_pdgid.push_back();
+    genpart_charge.push_back();
+    genpart_p4.push_back();
+
+  }
+
+//genjets
+  edm::Handle<std::vector<reco::GenJet> > genjets;
+  iEvent.getByLabel( edm::InputTag("ak5GenJets") , genjets);
+  std::vector<reco::Track>::const_iterator genjetIterator      = (genjets.product())->begin();
+  std::vector<reco::Track>::const_iterator genjetIteratorEnd   = (genjets.product())->end();
+
+  for ( ; genjetIterator != genjetIteratorEnd; genjetIterator++)
+  {
+
+    genjet_p4.push_back();
+    genjet_emEnergy.push_back();
+    genjet_hadEnergy.push_back();
+    genjet_invisibleEnergy.push_back();
+    genjet_auxiliaryEnergy.push_back();
+
+    this_collid
+    this_pdgid
+    this_charge
+    this_p4
+    for()
+    {
+    
+    }
+    genjet_const_collid.push_back();
+    genjet_const_pdgid.push_back();
+    genjet_const_charge.push_back();
+    genjet_const_p4.push_back();
+
+  }
+
+
 //tracks
   edm::Handle<std::vector<reco::Track> > trackColl;
   iEvent.getByLabel( edm::InputTag("generalTracks") , trackColl);
@@ -622,15 +801,15 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
     track_vz.push_back(        trackIterator->vz());
     track_algo.push_back(      (Int_t) trackIterator->algo());
 
-    std::vector<Float_t> this_track_hit_global_x;
-    std::vector<Float_t> this_track_hit_global_y;
-    std::vector<Float_t> this_track_hit_global_z;
-    std::vector<Float_t> this_track_hit_local_x;
-    std::vector<Float_t> this_track_hit_local_y;
-    std::vector<Float_t> this_track_hit_local_x_error;
-    std::vector<Float_t> this_track_hit_local_y_error;
-    std::vector<UInt_t> this_track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
-    std::vector<UInt_t> this_track_hit_layer;
+    std::vector<float> this_track_hit_global_x;
+    std::vector<float> this_track_hit_global_y;
+    std::vector<float> this_track_hit_global_z;
+    std::vector<float> this_track_hit_local_x;
+    std::vector<float> this_track_hit_local_y;
+    std::vector<float> this_track_hit_local_x_error;
+    std::vector<float> this_track_hit_local_y_error;
+    std::vector<unsigned int> this_track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
+    std::vector<unsigned int> this_track_hit_layer;
 
 
     trackingRecHit_iterator rechit_it = trackIterator->recHitsBegin();
@@ -663,7 +842,8 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
 
           //std::cout<<GP.x()<<std::endl;
         }
-        this_track_hit_layer.push_back(getLayer(the_detid));
+        unsigned int layer = getLayer(the_detid);
+        this_track_hit_layer.push_back(layer);
         this_track_hit_sub_det.push_back(subid);
         this_track_hit_global_x.push_back(GP.x());
         this_track_hit_global_y.push_back(GP.y());
@@ -672,6 +852,37 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
         this_track_hit_local_y.push_back(lp.y());
         this_track_hit_local_x_error.push_back(sqrt(le.xx()));
         this_track_hit_local_y_error.push_back(sqrt(le.yy()));
+        //int nmatches=0;
+        for (unsigned int i=0;i<hit_global_x.size();i++)
+        {
+          if (hit_sub_det[i]==subid &&
+              hit_layer[i]==layer &&
+              fabs((float)hit_global_x[i]-(float)GP.x())<0.01 &&
+              fabs((float)hit_global_y[i]-(float)GP.y())<0.01 &&
+              fabs((float)hit_global_z[i]-(float)GP.z())<0.01 
+              )
+          {
+            hit_recotrack_match[i]=true;
+            hit_recotrack_id[i]=track_chi2.size()-1;
+            //std::cout<<"track match "<<hit_global_x[i]<<" "<<GP.x()<<std::endl;
+            //nmatches++;
+          }
+
+        }
+        // switch (nmatches)
+        // {
+        //   case 0:
+        //   std::cout<<"no matches"<<std::endl;
+        //   break;
+        //   case 1:
+        //   //std::cout<<"one match"<<std::endl;
+        //   break;
+        //   default:
+        //   std::cout<<nmatches<<" matches"<<std::endl;
+        //   break;
+
+
+        // }
         //std::cout<<(*rechit_it)->localPosition().x()<<std::endl;
 
   //        id_type rawId() const { return m_id;}
@@ -698,7 +909,7 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
   }
 
   hits_tree->Fill();
-  tracks_tree->Fill();
+  //tracks_tree->Fill();
 }
 
 
