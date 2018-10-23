@@ -30,7 +30,7 @@ process.maxEvents = cms.untracked.PSet(
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:step1_qcd8.root')
+    fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
@@ -49,8 +49,8 @@ process.configurationMetadata = cms.untracked.PSet(
 
 process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
-    outputCommands = process.AODSIMEventContent.outputCommands+cms.untracked.vstring('keep *_siStripMatchedRecHits_*_*','keep *_siPixelRecHits_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*'),#cms.untracked.vstring('keep *'),#process.AODSIMEventContent.outputCommands,
-    fileName = cms.untracked.string('file:step2_qcd8_keepgood.root'),
+    outputCommands = process.AODSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*','keep *_g4SimHits_*_*','keep *_generalTracks_*_*'),#+cms.untracked.vstring('keep *_siStripMatchedRecHits_*_*','keep *_siPixelRecHits_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*'),#cms.untracked.vstring('keep *'),#process.AODSIMEventContent.outputCommands,
+    fileName = cms.untracked.string('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('AODSIM')

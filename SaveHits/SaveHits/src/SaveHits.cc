@@ -75,6 +75,7 @@
 #include "TrackingTools/PatternTools/interface/Trajectory.h"
 
 #include "TTree.h"
+#include "TLorentzVector.h"
 
 #include "DataFormats/TrackingRecHit/interface/TrackingRecHitFwd.h"
 
@@ -85,6 +86,12 @@
 #include "DataFormats/HepMCCandidate/interface/GenParticle.h"
 #include "SimDataFormats/EncodedEventId/interface/EncodedEventId.h"
 #include "DataFormats/JetReco/interface/GenJet.h"
+
+#include "TrackingTools/Records/interface/TransientRecHitRecord.h"
+#include "TrackingTools/TransientTrackingRecHit/interface/TransientTrackingRecHitBuilder.h"
+
+
+
 
 //
 // class declaration
@@ -138,26 +145,46 @@ class SaveHits : public edm::EDAnalyzer {
       std::vector<unsigned int>  hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
       std::vector<unsigned int>  hit_layer;
 
-      std::vector<unsigned int>  hit_simtrack_id;
+      std::vector<int>  hit_simtrack_id;
+      std::vector<unsigned int>  hit_simtrack_index;
       std::vector<bool>          hit_simtrack_match;
       std::vector<unsigned int>  hit_genparticle_id;
       std::vector<int>           hit_pdgid;
       std::vector<unsigned int>  hit_recotrack_id;
       std::vector<bool>          hit_recotrack_match;
+      std::vector<bool>          hit_genparticle_match;
+      std::vector<unsigned int>  hit_genjet_id;
+      std::vector<bool>          hit_genjet_match;
 
       std::vector<unsigned int> simtrack_id;
       std::vector<int>          simtrack_pdgid;
       std::vector<int>          simtrack_charge;
-      std::vector<TLorentzVector> simtrack_p4;
+
+      std::vector<float> simtrack_px;
+      std::vector<float> simtrack_py;
+      std::vector<float> simtrack_pz;
+      std::vector<float> simtrack_energy;
+      
       std::vector<unsigned int> simtrack_vtxid;
       std::vector<unsigned int> simtrack_genid;
+      std::vector<uint32_t> simtrack_evtid;
 
       std::vector<int> genpart_collid;
       std::vector<int> genpart_pdgid;
       std::vector<int> genpart_charge;
-      std::vector<TLorentzVector> genpart_p4;
 
-      std::vector<TLorentzVector> genjet_p4;
+      std::vector<float> genpart_px;
+      std::vector<float> genpart_py;
+      std::vector<float> genpart_pz;
+      std::vector<float> genpart_energy;
+
+      std::vector<int> genpart_status;
+
+      std::vector<float> genjet_px;
+      std::vector<float> genjet_py;
+      std::vector<float> genjet_pz;
+      std::vector<float> genjet_energy;
+
       std::vector<float> genjet_emEnergy;
       std::vector<float> genjet_hadEnergy;
       std::vector<float> genjet_invisibleEnergy;
@@ -165,9 +192,11 @@ class SaveHits : public edm::EDAnalyzer {
       std::vector<std::vector<int> > genjet_const_collid;
       std::vector<std::vector<int> > genjet_const_pdgid;
       std::vector<std::vector<int> > genjet_const_charge;
-      std::vector<std::vector<TLorentzVector> > genjet_const_p4;
 
-
+      std::vector<std::vector<float> > genjet_const_px;
+      std::vector<std::vector<float> > genjet_const_py;
+      std::vector<std::vector<float> > genjet_const_pz;
+      std::vector<std::vector<float> > genjet_const_energy;
 
 
       std::vector<float> track_chi2;
@@ -302,27 +331,46 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    hits_tree->Branch("hit_layer",&hit_layer);
 
    hits_tree->Branch("hit_simtrack_id",&hit_simtrack_id);
+   hits_tree->Branch("hit_simtrack_index",&hit_simtrack_index);
    hits_tree->Branch("hit_simtrack_match",&hit_simtrack_match);
    hits_tree->Branch("hit_genparticle_id",&hit_genparticle_id);
    hits_tree->Branch("hit_pdgid",&hit_pdgid);
    hits_tree->Branch("hit_recotrack_id",&hit_recotrack_id);
    hits_tree->Branch("hit_recotrack_match",&hit_recotrack_match);
-
+   hits_tree->Branch("hit_genparticle_match",&hit_genparticle_match);
+   hits_tree->Branch("hit_genjet_id",&hit_genjet_id);
+   hits_tree->Branch("hit_genjet_match",&hit_genjet_match);
 
 
    hits_tree->Branch("simtrack_id",&simtrack_id);
    hits_tree->Branch("simtrack_pdgid",&simtrack_pdgid);
    hits_tree->Branch("simtrack_charge",&simtrack_charge);
-   hits_tree->Branch("simtrack_p4",&simtrack_p4);
+
+   hits_tree->Branch("simtrack_px",&simtrack_px);
+   hits_tree->Branch("simtrack_py",&simtrack_py);
+   hits_tree->Branch("simtrack_pz",&simtrack_pz);
+   hits_tree->Branch("simtrack_energy",&simtrack_energy);
+
    hits_tree->Branch("simtrack_vtxid",&simtrack_vtxid);
    hits_tree->Branch("simtrack_genid",&simtrack_genid);
+   hits_tree->Branch("simtrack_evtid",&simtrack_evtid);
 
    hits_tree->Branch("genpart_collid",&genpart_collid);
    hits_tree->Branch("genpart_pdgid",&genpart_pdgid);
    hits_tree->Branch("genpart_charge",&genpart_charge);
-   hits_tree->Branch("genpart_p4",&genpart_p4);
 
-   hits_tree->Branch("genjet_p4",&genjet_p4);
+   hits_tree->Branch("genpart_px",&genpart_px);
+   hits_tree->Branch("genpart_py",&genpart_py);
+   hits_tree->Branch("genpart_px",&genpart_pz);
+   hits_tree->Branch("genpart_energy",&genpart_energy);
+   
+   hits_tree->Branch("genpart_status",&genpart_status);
+
+   hits_tree->Branch("genjet_px",&genjet_px);
+   hits_tree->Branch("genjet_py",&genjet_py);
+   hits_tree->Branch("genjet_pz",&genjet_pz);
+   hits_tree->Branch("genjet_energy",&genjet_energy);
+
    hits_tree->Branch("genjet_emEnergy",&genjet_emEnergy);
    hits_tree->Branch("genjet_hadEnergy",&genjet_hadEnergy);
    hits_tree->Branch("genjet_invisibleEnergy",&genjet_invisibleEnergy);
@@ -330,7 +378,11 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    hits_tree->Branch("genjet_const_collid",&genjet_const_collid);
    hits_tree->Branch("genjet_const_pdgid",&genjet_const_pdgid);
    hits_tree->Branch("genjet_const_charge",&genjet_const_charge);
-   hits_tree->Branch("genjet_const_p4",&genjet_const_p4);
+
+   hits_tree->Branch("genjet_const_px",&genjet_const_px);
+   hits_tree->Branch("genjet_const_py",&genjet_const_py);
+   hits_tree->Branch("genjet_const_pz",&genjet_const_pz);
+   hits_tree->Branch("genjet_const_energy",&genjet_const_energy);
 
 
 
@@ -418,25 +470,45 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   hit_layer.clear();
 
   hit_simtrack_id.clear();
+  hit_simtrack_index.clear();
   hit_simtrack_match.clear();
   hit_genparticle_id.clear();
+  hit_genparticle_match.clear();
   hit_pdgid.clear();
+  hit_genjet_id.clear();
+  hit_genjet_match.clear();
   hit_recotrack_id.clear();
   hit_recotrack_match.clear();
 
   simtrack_id.clear();
   simtrack_pdgid.clear();
   simtrack_charge.clear();
-  simtrack_p4.clear();
+
+  simtrack_px.clear();
+  simtrack_py.clear();
+  simtrack_pz.clear();
+  simtrack_energy.clear();
+
   simtrack_vtxid.clear();
   simtrack_genid.clear();
+  simtrack_evtid.clear();
 
   genpart_collid.clear();
   genpart_pdgid.clear();
   genpart_charge.clear();
-  genpart_p4.clear();
 
-  genjet_p4.clear();
+  genpart_px.clear();
+  genpart_py.clear();
+  genpart_pz.clear();
+  genpart_energy.clear();
+ 
+  genpart_status.clear();
+
+  genjet_px.clear();
+  genjet_py.clear();
+  genjet_pz.clear();
+  genjet_energy.clear();
+
   genjet_emEnergy.clear();
   genjet_hadEnergy.clear();
   genjet_invisibleEnergy.clear();
@@ -444,7 +516,11 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   genjet_const_collid.clear();
   genjet_const_pdgid.clear();
   genjet_const_charge.clear();
-  genjet_const_p4.clear();
+
+  genjet_const_px.clear();
+  genjet_const_py.clear();
+  genjet_const_pz.clear();
+  genjet_const_energy.clear();
 
   track_chi2.clear();
   track_ndof.clear();
@@ -484,6 +560,103 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   edm::ESHandle<TrackerGeometry> geom;
   iSetup.get<TrackerDigiGeometryRecord>().get( geom );
   const TrackerGeometry& theTracker(*geom);
+
+
+//sim tracks
+  edm::Handle<std::vector<SimTrack> > simtracks;
+  iEvent.getByLabel( edm::InputTag("g4SimHits") , simtracks);
+  std::vector<SimTrack>::const_iterator simtrackIterator      = (simtracks.product())->begin();
+  std::vector<SimTrack>::const_iterator simtrackIteratorEnd   = (simtracks.product())->end();
+
+  for ( ; simtrackIterator != simtrackIteratorEnd; simtrackIterator++)
+  {
+
+    simtrack_id.push_back(simtrackIterator->trackId());
+    simtrack_pdgid.push_back(simtrackIterator->type());
+    simtrack_charge.push_back(simtrackIterator->charge());
+    //TLorentzVector v(simtrackIterator->momentum().px(),simtrackIterator->momentum().py(),simtrackIterator->momentum().pz(),simtrackIterator->momentum().energy());
+    
+    simtrack_px.push_back(simtrackIterator->momentum().px());
+    simtrack_py.push_back(simtrackIterator->momentum().py());
+    simtrack_pz.push_back(simtrackIterator->momentum().pz());
+    simtrack_energy.push_back(simtrackIterator->momentum().energy());
+    
+    simtrack_vtxid.push_back(simtrackIterator->vertIndex());
+    simtrack_genid.push_back(simtrackIterator->genpartIndex());
+    simtrack_evtid.push_back(simtrackIterator->eventId().rawId());
+
+  }
+
+//genparticles
+  edm::Handle<std::vector<reco::GenParticle> > genparticles;
+  iEvent.getByLabel( edm::InputTag("genParticles") , genparticles);
+  std::vector<reco::GenParticle>::const_iterator genpartIterator      = (genparticles.product())->begin();
+  std::vector<reco::GenParticle>::const_iterator genpartIteratorEnd   = (genparticles.product())->end();
+
+  for ( ; genpartIterator != genpartIteratorEnd; genpartIterator++)
+  {
+
+    genpart_collid.push_back(genpartIterator->collisionId());
+    genpart_pdgid.push_back(genpartIterator->pdgId());
+    genpart_charge.push_back(genpartIterator->charge());
+
+    genpart_px.push_back(genpartIterator->px());
+    genpart_py.push_back(genpartIterator->py());
+    genpart_pz.push_back(genpartIterator->pz());
+    genpart_energy.push_back(genpartIterator->energy());
+
+    genpart_status.push_back(genpartIterator->status());
+
+  }
+
+//genjets
+  edm::Handle<std::vector<reco::GenJet> > genjets;
+  iEvent.getByLabel( edm::InputTag("ak5GenJets") , genjets);
+  std::vector<reco::GenJet>::const_iterator genjetIterator      = (genjets.product())->begin();
+  std::vector<reco::GenJet>::const_iterator genjetIteratorEnd   = (genjets.product())->end();
+
+  for ( ; genjetIterator != genjetIteratorEnd; genjetIterator++)
+  {
+
+    genjet_px.push_back(genjetIterator->px());
+    genjet_py.push_back(genjetIterator->py());
+    genjet_pz.push_back(genjetIterator->pz());
+    genjet_energy.push_back(genjetIterator->energy());
+
+    genjet_emEnergy.push_back(genjetIterator->emEnergy());
+    genjet_hadEnergy.push_back(genjetIterator->hadEnergy());
+    genjet_invisibleEnergy.push_back(genjetIterator->invisibleEnergy());
+    genjet_auxiliaryEnergy.push_back(genjetIterator->auxiliaryEnergy());
+
+    std::vector<int> this_collid;
+    std::vector<int> this_pdgid;
+    std::vector<int> this_charge;
+    std::vector<float> this_px;
+    std::vector<float> this_py;
+    std::vector<float> this_pz;
+    std::vector<float> this_energy;
+    const std::vector <const reco::GenParticle*> & constituents = genjetIterator->getGenConstituents();
+     for(unsigned int i=0; i<constituents.size();i++)
+     {
+       this_collid.push_back(constituents[i]->collisionId());
+       this_pdgid.push_back(constituents[i]->pdgId());
+       this_charge.push_back(constituents[i]->charge());
+       
+       this_px.push_back(constituents[i]->px());
+       this_py.push_back(constituents[i]->py());
+       this_pz.push_back(constituents[i]->pz());
+       this_energy.push_back(constituents[i]->energy());
+     }
+    genjet_const_collid.push_back(this_collid);
+    genjet_const_pdgid.push_back(this_pdgid);
+    genjet_const_charge.push_back(this_charge);
+    genjet_const_px.push_back(this_px);
+    genjet_const_py.push_back(this_py);
+    genjet_const_pz.push_back(this_pz);
+    genjet_const_energy.push_back(this_energy);
+
+  }
+
 
 //sipixel
   edm::Handle<SiPixelRecHitCollection> recHitColl;
@@ -526,24 +699,33 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
     for(;pixeliter!=rechitRangeIteratorEnd;++pixeliter)
     {//loop on the rechit
 
+      if (pixeliter->isValid())
+      {
+
+      int simtrack_id=-1;
+      unsigned int simtrack_index=0;
+      bool simtrack_match=false;
+
       std::vector<SimHitIdpr> matched;
       // SimHitIdpr closest;
       // float mindist = 999999;
       // float dist;
       matched = associate.associateHitId(*pixeliter);
       // if(!matched.empty()) std::cout<<"passing here"<<std::endl;
-      std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
+      //std::cout << " Rechit = " << pixeliter->localPosition() << std::endl; 
       if(!matched.empty())
       {
-        std::cout << " matched = " << matched.size() << std::endl;
+        //std::cout << " matched = " << matched.size() << std::endl;
         for(std::vector<SimHitIdpr>::const_iterator m=matched.begin(); m<matched.end(); m++)
         {
           bool found = false;
+          simtrack_id=m->first;
           for(std::vector<SimTrack>::const_iterator st=(simtracks.product())->begin();st<(simtracks.product())->end();st++)
           {
             if (m->first==st->trackId())
             {
-              std::cout<<m->second.rawId()<<" "<<m->first<<" "<<st->type()<<" "<<st->genpartIndex()<<std::endl;
+              simtrack_index=st-simtracks.product()->begin();
+              //std::cout<<m->second.rawId()<<" "<<m->first<<" "<<st->type()<<" "<<st->genpartIndex()<<std::endl;
               found=true;
               break;
             }
@@ -551,9 +733,10 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             // st->genpartIndex();
             // st->noGenpart();
           }
-          if (!found)
+          if (found)
           {
-            std::cout<<"no simtrack found, id was:"<<m->first<<" "<<m->second.rawId()<<std::endl;
+            simtrack_match=true;
+            break;
           }
           // std::cout << " simtrack ID = " << (*m).trackId() << " Simhit x = " << (*m).localPosition() << std::endl;
           // dist = fabs(pixeliter->localPosition().x() - (*m).localPosition().x());
@@ -565,6 +748,56 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         }  
         //std::cout << " Closest Simhit = " << closest.localPosition() << std::endl;
       }
+
+      unsigned int    genparticle_id=0;
+      int             genparticle_pdgid=9999;
+      bool            genparticle_match=false;
+      if (simtrack_match)
+      {
+        if (!simtracks.product()->at(simtrack_index).noGenpart())
+        {
+          unsigned int the_gen_index=simtracks.product()->at(simtrack_index).genpartIndex();
+          if (the_gen_index<genparticles.product()->size())
+          {
+            genparticle_id=the_gen_index;
+            genparticle_pdgid=genparticles.product()->at(the_gen_index).pdgId();
+            genparticle_match=true;
+          }
+        }
+      }
+
+
+      unsigned int  genjet_id=0;
+      bool          genjet_match=false;
+      if (genparticle_match)
+      {
+        bool found=false;
+        reco::GenParticle the_gen_particle = genparticles.product()->at(genparticle_id);
+        for(std::vector<reco::GenJet>::const_iterator gj=(genjets.product())->begin();gj<(genjets.product())->end();gj++)
+        {
+          const std::vector <const reco::GenParticle*> & constituents = gj->getGenConstituents();
+          for(unsigned int i=0; i<constituents.size();i++)
+          {
+            if (constituents[i]->collisionId()==the_gen_particle.collisionId()
+                &&constituents[i]->pdgId()==the_gen_particle.pdgId()
+                &&constituents[i]->status()==the_gen_particle.status()
+                &&fabs(constituents[i]->px()-the_gen_particle.px() )<0.01
+                &&fabs(constituents[i]->py()-the_gen_particle.py() )<0.01
+                &&fabs(constituents[i]->pz()-the_gen_particle.pz() )<0.01)
+            {
+              found=true;
+              break;
+            }//good match found
+          }//constituents loop
+          if (found)
+          {
+            genjet_id=gj-genjets.product()->begin();
+            genjet_match=true;
+            break;
+          }
+        }//genjets loop
+      }//if hit has a match gen particle
+
 
       LocalPoint lp = pixeliter->localPosition();
       LocalError le = pixeliter->localPositionError();
@@ -580,8 +813,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
 
       //std::cout<<"["<<lp.x()<<", "<<clust->x()<<", "<<lp.y()<<"],"<<clust->y()<<std::endl;
-      if (pixeliter->isValid())
-      {
+      
         hit_sub_det.push_back(subid);
         hit_layer.push_back(layer);
         hit_global_x.push_back(GP.x());
@@ -593,6 +825,14 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         hit_local_y_error.push_back(sqrt(le.yy()));
         hit_recotrack_id.push_back(0);
         hit_recotrack_match.push_back(false);
+        hit_simtrack_id.push_back(simtrack_id);
+        hit_simtrack_index.push_back(simtrack_index);
+        hit_simtrack_match.push_back(simtrack_match);
+        hit_genparticle_id.push_back(genparticle_id);
+        hit_pdgid.push_back(genparticle_pdgid);
+        hit_genparticle_match.push_back(genparticle_match);
+        hit_genjet_id.push_back(genjet_id);
+        hit_genjet_match.push_back(genjet_match);
       }
       // hit_cluster_global_x.push_back();
       // hit_cluster_global_y.push_back();
@@ -700,75 +940,17 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
   }
 }
 
-
-//sim tracks
-  edm::Handle<std::vector<SimTrack> > simtracks;
-  iEvent.getByLabel( edm::InputTag("g4SimHits") , simtracks);
-  std::vector<reco::Track>::const_iterator simtrackIterator      = (simtracks.product())->begin();
-  std::vector<reco::Track>::const_iterator simtrackIteratorEnd   = (simtracks.product())->end();
-
-  for ( ; simtrackIterator != simtrackIteratorEnd; simtrackIterator++)
-  {
-
-    simtrack_id.push_back();
-    simtrack_pdgid.push_back();
-    simtrack_charge.push_back();
-    simtrack_p4.push_back();
-    simtrack_vtxid.push_back();
-    simtrack_genid.push_back();
-
-  }
-
-//genparticles
-  edm::Handle<std::vector<reco::GenParticle> > genparticles;
-  iEvent.getByLabel( edm::InputTag("genParticles") , genparticles);
-  std::vector<reco::Track>::const_iterator genpartIterator      = (genparticles.product())->begin();
-  std::vector<reco::Track>::const_iterator genpartIteratorEnd   = (genparticles.product())->end();
-
-  for ( ; genpartIterator != genpartIteratorEnd; genpartIterator++)
-  {
-
-    genpart_collid.push_back();
-    genpart_pdgid.push_back();
-    genpart_charge.push_back();
-    genpart_p4.push_back();
-
-  }
-
-//genjets
-  edm::Handle<std::vector<reco::GenJet> > genjets;
-  iEvent.getByLabel( edm::InputTag("ak5GenJets") , genjets);
-  std::vector<reco::Track>::const_iterator genjetIterator      = (genjets.product())->begin();
-  std::vector<reco::Track>::const_iterator genjetIteratorEnd   = (genjets.product())->end();
-
-  for ( ; genjetIterator != genjetIteratorEnd; genjetIterator++)
-  {
-
-    genjet_p4.push_back();
-    genjet_emEnergy.push_back();
-    genjet_hadEnergy.push_back();
-    genjet_invisibleEnergy.push_back();
-    genjet_auxiliaryEnergy.push_back();
-
-    this_collid
-    this_pdgid
-    this_charge
-    this_p4
-    for()
-    {
-    
-    }
-    genjet_const_collid.push_back();
-    genjet_const_pdgid.push_back();
-    genjet_const_charge.push_back();
-    genjet_const_p4.push_back();
-
-  }
-
-
-//tracks
+  // Handle<TrackCollection> tracks;
+  // iEvent.getByLabel("TrackRefitter", tracks);
+  edm::ESHandle<TransientTrackingRecHitBuilder> theTrackerRecHitBuilder;
   edm::Handle<std::vector<reco::Track> > trackColl;
-  iEvent.getByLabel( edm::InputTag("generalTracks") , trackColl);
+  iEvent.getByLabel( edm::InputTag("TrackRefitter") , trackColl);
+  iSetup.get<TransientRecHitRecord>().get(conf_.getParameter<std::string>("TrackerRecHitBuilder"),theTrackerRecHitBuilder);
+//tracks
+
+
+  // edm::Handle<std::vector<reco::Track> > trackColl;
+  // iEvent.getByLabel( edm::InputTag("generalTracks") , trackColl);
   std::vector<reco::Track>::const_iterator trackIterator      = (trackColl.product())->begin();
   std::vector<reco::Track>::const_iterator trackIteratorEnd   = (trackColl.product())->end();
 
@@ -812,36 +994,45 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
     std::vector<unsigned int> this_track_hit_layer;
 
 
-    trackingRecHit_iterator rechit_it = trackIterator->recHitsBegin();
-    trackingRecHit_iterator rechit_end = trackIterator->recHitsEnd();
-    for (;rechit_it!=rechit_end;rechit_it++)
+    // trackingRecHit_iterator rechit_it = trackIterator->recHitsBegin();
+    // trackingRecHit_iterator rechit_end = trackIterator->recHitsEnd();
+    // for (;rechit_it!=rechit_end;rechit_it++)
+    const reco::HitPattern& p = trackIterator->hitPattern();
+    for (int i=0; i<p.numberOfHits(); i++) 
     {
-      if ((*rechit_it)->isValid())
+      TrackingRecHitRef rhit = trackIterator->recHit(i);
+      if (rhit->isValid())
       {
-        DetId the_detid = (*rechit_it)->geographicalId();
+        DetId the_detid = rhit->geographicalId();
         if (the_detid.det()!=1) continue; //only tracker
         unsigned int subid= the_detid.subdetId();
         LocalPoint lp;
         GlobalPoint GP;
         LocalError le;
-        if (subid==1 || subid==2)
-        {
-          const PixelGeomDetUnit* theGeomDet = dynamic_cast<const PixelGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
-          lp = (*rechit_it)->localPosition();
-          le = (*rechit_it)->localPositionError();
-          GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
-          //std::cout<<GP.x()<<std::endl;
 
-        }
-        if (subid>=3 && subid<=6)
-        {
-          const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
-          lp = (*rechit_it)->localPosition();
-          le = (*rechit_it)->localPositionError();
-          GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+        TransientTrackingRecHit::RecHitPointer tthit = theTrackerRecHitBuilder->build(&*rhit);
+        GP =  tthit->globalPosition();
+        lp = tthit->localPosition();
+        le = tthit->localPositionError();
 
-          //std::cout<<GP.x()<<std::endl;
-        }
+        // if (subid==1 || subid==2)
+        // {
+        //   const PixelGeomDetUnit* theGeomDet = dynamic_cast<const PixelGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
+        //   lp = (*rechit_it)->localPosition();
+        //   le = (*rechit_it)->localPositionError();
+        //   GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+        //   //std::cout<<GP.x()<<std::endl;
+
+        // }
+        // if (subid>=3 && subid<=6)
+        // {
+        //   const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( (*rechit_it)->geographicalId() ) );
+        //   lp = (*rechit_it)->localPosition();
+        //   le = (*rechit_it)->localPositionError();
+        //   GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+
+        //   //std::cout<<GP.x()<<std::endl;
+        // }
         unsigned int layer = getLayer(the_detid);
         this_track_hit_layer.push_back(layer);
         this_track_hit_sub_det.push_back(subid);
@@ -869,6 +1060,10 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
           }
 
         }
+
+//qui
+
+
         // switch (nmatches)
         // {
         //   case 0:

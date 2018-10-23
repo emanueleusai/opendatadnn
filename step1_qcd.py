@@ -31,7 +31,7 @@ process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
     fileNames = cms.untracked.vstring(
         # 'file:step0_qcd6.root'
-        'file:step0_ttbar8.root' 
+        'file:/afs/cern.ch/work/e/eusai/public/opendata/files/step0_qcd8.root' 
         ),
     setRunNumber = cms.untracked.uint32(206859)
 )
@@ -52,9 +52,9 @@ process.configurationMetadata = cms.untracked.PSet(
 process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-    outputCommands = process.RAWSIMEventContent.outputCommands,
+    outputCommands = process.RAWSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*'),
     # fileName = cms.untracked.string('file:step1_qcd6.root'),
-    fileName = cms.untracked.string('file:step1.root'),
+    fileName = cms.untracked.string('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RAW')

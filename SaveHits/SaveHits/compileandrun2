@@ -1,0 +1,3 @@
+setenv USER_CXXFLAGS "-Wno-error=unused-variable -Wno-error=unused-but-set-variable"
+scram b -j10
+cmsRun savehits_cfg.py

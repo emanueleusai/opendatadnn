@@ -7,6 +7,10 @@
 <use   name="SimDataFormats/CrossingFrame"/>
 <use   name="CommonTools/UtilAlgos"/>
 <use   name="FWCore/ServiceRegistry"/>
+<use   name="DataFormats/HepMCCandidate"/>
+<use   name="DataFormats/TrackReco"/>
+<use   name="TrackingTools/Records"/>
+<use   name="RecoTracker/TransientTrackingRecHit"/>
 <use   name="clhep"/>
 <use   name="boost"/>
 <use   name="root"/>
