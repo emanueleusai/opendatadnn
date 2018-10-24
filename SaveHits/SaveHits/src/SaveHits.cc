@@ -702,6 +702,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       if (pixeliter->isValid())
       {
 
+      //simtrack match
       int simtrack_id=-1;
       unsigned int simtrack_index=0;
       bool simtrack_match=false;
@@ -749,6 +750,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
         //std::cout << " Closest Simhit = " << closest.localPosition() << std::endl;
       }
 
+      //genparticle match
       unsigned int    genparticle_id=0;
       int             genparticle_pdgid=9999;
       bool            genparticle_match=false;
@@ -764,9 +766,10 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             genparticle_match=true;
           }
         }
+        //std::cout<<genparticle_match<<" "<<genparticle_pdgid<<" "<<simtracks.product()->at(simtrack_index).genpartIndex()<<"\n";
       }
 
-
+      //genjet match
       unsigned int  genjet_id=0;
       bool          genjet_match=false;
       if (genparticle_match)
@@ -786,6 +789,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
                 &&fabs(constituents[i]->pz()-the_gen_particle.pz() )<0.01)
             {
               found=true;
+              //std::cout<<"aaa "<<fabs(constituents[i]->px()-the_gen_particle.px() )<<" "<<fabs(constituents[i]->py()-the_gen_particle.py() )<<" "<<fabs(constituents[i]->pz()-the_gen_particle.pz() )<<"\n";
               break;
             }//good match found
           }//constituents loop
@@ -796,6 +800,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
             break;
           }
         }//genjets loop
+        //std::cout<<genjet_match<<" "<<genparticle_pdgid<<" "<<genjet_id<<"\n";
       }//if hit has a match gen particle
 
 
@@ -855,6 +860,8 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   std::vector<std::string> collections;
   collections.push_back("rphiRecHit");
   collections.push_back("stereoRecHit");
+  collections.push_back("rphiRecHitUnmatched");
+  collections.push_back("stereoRecHitUnmatched");
 
 for (unsigned int the_collection=0; the_collection<collections.size();the_collection++){
   edm::Handle<SiStripRecHit2DCollection> stripRecHitColl;
@@ -871,59 +878,113 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
      unsigned int subid=detId.subdetId(); //subdetector type, barrel=1, fpix=2
      unsigned int layer = getLayer(detId);
 
-     // switch(subid)
-     // {
-     //  case 3://TIB
-     //  {
-     //    TIBDetId pdetId = TIBDetId(detId);
-     //    layer=pdetId.layer();
-     //  }
-     //  break;
-
-     //  case 4://TID
-     //  {
-     //    TIDDetId pdetId = TIDDetId(detId);
-     //    layer=pdetId.wheel();
-     //  }
-     //  break;
-
-     //  case 5://TOB
-     //  {
-     //    TOBDetId pdetId = TOBDetId(detId);
-     //    layer=pdetId.layer();
-     //  }
-     //  break;
-
-     //  case 6://TEC
-     //  {
-     //    TECDetId pdetId = TECDetId(detId);
-     //    layer=pdetId.wheel();
-     //  }
-     //  break;
-     // }
-    //std::cout<<layer;
      //const StripGeomDetUnit * theGeomDet = dynamic_cast<const StripGeomDetUnit*> (theTracker.idToDet(detId) );
 
      SiStripRecHit2DCollection::DetSet::const_iterator stripiter=detset.begin();
      SiStripRecHit2DCollection::DetSet::const_iterator stripRechitRangeIteratorEnd   = detset.end();
+     TrackerHitAssociator  associate(iEvent,conf_);
 
      for(;stripiter!=stripRechitRangeIteratorEnd;++stripiter)
      //for(SiStripMatchedRecHit2DCollection::DetSet::const_iterator iter=detunit_iterator->begin(), end = detunit_iterator->end(); iter != end; ++iter)
      {
-      const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( stripiter->geographicalId() ) );
-      LocalPoint lp = stripiter->localPosition();
-      LocalError le = stripiter->localPositionError();
-      //std::cout<<lp.x()<<std::endl;
-      GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
-      //std::cout<<theGeomDet->toGlobal(lp).x();
-      // //theStripDet->toGlobal(hit.localPosition()).x();
-      // //dynamic_cast<const StripGeomDetUnit*>( theTrackerGeometry->idToDet( hit.geographicalId() ) );
-      // //std::cout<<"["<<GP.x()<<", "<<GP.y()<<", "<<GP.z()<<"],"<<std::endl;
-      // //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
-      //std::cout<<lp.x()<<std::endl;
       if (stripiter->isValid())
       {
-       //   std::cout<<lp.x()<<std::endl;
+
+
+
+        //simtrack match
+        int simtrack_id=-1;
+        unsigned int simtrack_index=0;
+        bool simtrack_match=false;
+        std::vector<SimHitIdpr> matched;
+        matched = associate.associateHitId(*stripiter); 
+        if(!matched.empty())
+        {
+          for(std::vector<SimHitIdpr>::const_iterator m=matched.begin(); m<matched.end(); m++)
+          {
+            bool found = false;
+            simtrack_id=m->first;
+            for(std::vector<SimTrack>::const_iterator st=(simtracks.product())->begin();st<(simtracks.product())->end();st++)
+            {
+              if (m->first==st->trackId())
+              {
+                simtrack_index=st-simtracks.product()->begin();
+                found=true;
+                break;
+              }
+            }
+            if (found)
+            {
+              simtrack_match=true;
+              break;
+            }
+          }  
+        }
+
+        //genparticle match
+        unsigned int    genparticle_id=0;
+        int             genparticle_pdgid=9999;
+        bool            genparticle_match=false;
+        if (simtrack_match)
+        {
+          if (!simtracks.product()->at(simtrack_index).noGenpart())
+          {
+            unsigned int the_gen_index=simtracks.product()->at(simtrack_index).genpartIndex();
+            if (the_gen_index<genparticles.product()->size())
+            {
+              genparticle_id=the_gen_index;
+              genparticle_pdgid=genparticles.product()->at(the_gen_index).pdgId();
+              genparticle_match=true;
+            }
+          }
+        }
+
+        //genjet match
+        unsigned int  genjet_id=0;
+        bool          genjet_match=false;
+        if (genparticle_match)
+        {
+          bool found=false;
+          reco::GenParticle the_gen_particle = genparticles.product()->at(genparticle_id);
+          for(std::vector<reco::GenJet>::const_iterator gj=(genjets.product())->begin();gj<(genjets.product())->end();gj++)
+          {
+            const std::vector <const reco::GenParticle*> & constituents = gj->getGenConstituents();
+            for(unsigned int i=0; i<constituents.size();i++)
+            {
+              if (constituents[i]->collisionId()==the_gen_particle.collisionId()
+                  &&constituents[i]->pdgId()==the_gen_particle.pdgId()
+                 &&constituents[i]->status()==the_gen_particle.status()
+                 &&fabs(constituents[i]->px()-the_gen_particle.px() )<0.01
+                 &&fabs(constituents[i]->py()-the_gen_particle.py() )<0.01
+                 &&fabs(constituents[i]->pz()-the_gen_particle.pz() )<0.01)
+              {
+                found=true;
+                break;
+              }//good match found
+            }//constituents loop
+            if (found)
+            {
+              genjet_id=gj-genjets.product()->begin();
+              genjet_match=true;
+              break;
+            }
+          }//genjets loop
+        }//if hit has a match gen particle
+
+
+        const StripGeomDetUnit* theGeomDet = dynamic_cast<const StripGeomDetUnit*>( theTracker.idToDet( stripiter->geographicalId() ) );
+        LocalPoint lp = stripiter->localPosition();
+        LocalError le = stripiter->localPositionError();
+        //std::cout<<lp.x()<<std::endl;
+        GlobalPoint GP = theGeomDet->surface().toGlobal(Local3DPoint(lp));
+        //std::cout<<theGeomDet->toGlobal(lp).x();
+        // //theStripDet->toGlobal(hit.localPosition()).x();
+        // //dynamic_cast<const StripGeomDetUnit*>( theTrackerGeometry->idToDet( hit.geographicalId() ) );
+        // //std::cout<<"["<<GP.x()<<", "<<GP.y()<<", "<<GP.z()<<"],"<<std::endl;
+        // //edm::Ref<edmNew::DetSetVector<SiPixelCluster>, SiPixelCluster> const& clust = pixeliter->cluster();
+        //std::cout<<lp.x()<<std::endl;
+      
+        //   std::cout<<lp.x()<<std::endl;
         hit_sub_det.push_back(subid);
         hit_layer.push_back(layer);
         hit_global_x.push_back(GP.x());
@@ -935,6 +996,14 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
         hit_local_y_error.push_back(sqrt(le.yy()));
         hit_recotrack_id.push_back(0);
         hit_recotrack_match.push_back(false);
+        hit_simtrack_id.push_back(simtrack_id);
+        hit_simtrack_index.push_back(simtrack_index);
+        hit_simtrack_match.push_back(simtrack_match);
+        hit_genparticle_id.push_back(genparticle_id);
+        hit_pdgid.push_back(genparticle_pdgid);
+        hit_genparticle_match.push_back(genparticle_match);
+        hit_genjet_id.push_back(genjet_id);
+        hit_genjet_match.push_back(genjet_match);
       }
      }
   }
