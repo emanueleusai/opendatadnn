@@ -5,7 +5,7 @@
 # with command line options: step2 --filein file:step1.root --fileout file:step2.root --mc --eventcontent AODSIM,DQM --datatier AODSIM,DQM --conditions START53_V7N::All --step RAW2DIGI,L1Reco,RECO,VALIDATION:validation_prod,DQM:DQMOfflinePOGMC --python_filename /afs/cern.ch/cms/PPD/PdmV/work/McM/submit/HIG-Summer12DR53X-01648/HIG-Summer12DR53X-01648_2_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('RECO')
+process = cms.Process('RECO2')
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
@@ -31,7 +31,7 @@ process.maxEvents = cms.untracked.PSet(
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
     # fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root')
-    fileNames = cms.untracked.vstring('file:step1_qcd8.root')
+    fileNames = cms.untracked.vstring('file:../../step1_ttbar_V27.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
@@ -52,7 +52,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*','keep *_g4SimHits_*_*','keep *_generalTracks_*_*'),#+cms.untracked.vstring('keep *_siStripMatchedRecHits_*_*','keep *_siPixelRecHits_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*'),#cms.untracked.vstring('keep *'),#process.AODSIMEventContent.outputCommands,
     #fileName = cms.untracked.string('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'),
-    fileName = cms.untracked.string('file:step2_qcd8.root'),
+    fileName = cms.untracked.string('file:../../step2_ttbar_V27.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('AODSIM')
@@ -75,7 +75,9 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
 process.mix.playback = True
 process.RandomNumberGeneratorService.restoreStateLabel=cms.untracked.string("randomEngineStateProducer")
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V7N::All', '')
+process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
+# process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V7N::All', '')
 
 # Path and EndPath definitions
 process.raw2digi_step = cms.Path(process.RawToDigi)

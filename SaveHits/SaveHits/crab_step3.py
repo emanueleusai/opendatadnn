@@ -2,14 +2,15 @@ from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
 sample='qcd'
-the_name='step1_'+sample+'_p8_03'
+the_name='step3_'+sample+'_p8_03'
 config.General.requestName = the_name
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
+config.JobType.outputFiles = ['savehits_output.root']
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'step1_qcd.py'
+config.JobType.psetName = 'savehits_cfg.py'
 config.JobType.maxMemoryMB = 2500
 #config.JobType.maxJobRuntimeMin = 4320
 #config.JobType.numCores = 4
@@ -24,7 +25,7 @@ config.Data.publication = False
 config.Data.outputDatasetTag = the_name
 config.Data.ignoreLocality = True
 #config.Data.totalUnits = 100000
-config.Data.userInputFiles = open('step0_'+sample+'_p8_03').readlines()
+config.Data.userInputFiles = open('step2_'+sample+'_p8_03').readlines()
 #Data.outputPrimaryDataset
 
 config.Site.storageSite = 'T3_US_Brown'

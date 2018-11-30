@@ -18,14 +18,18 @@ process.load("RecoTracker.TrackProducer.TrackRefitters_cff")
 
 
 #process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_LV6A1.db')
-process.GlobalTag.globaltag = 'START53_LV6A1::All'
+# process.GlobalTag.globaltag = 'START53_LV6A1::All'
+from Configuration.AlCa.GlobalTag import GlobalTag
+process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
+process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
+
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
         #'file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'
-        'file:step2_qcd8.root'
+        'file:../../step2_qcd8_V27.root'
     )
 )
 
