@@ -144,6 +144,7 @@ class SaveHits : public edm::EDAnalyzer {
       // std::vector<unsigned int>  hit_cluster_size_y;
       std::vector<unsigned int>  hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
       std::vector<unsigned int>  hit_layer;
+      std::vector<unsigned int>  hit_type; // 0 pixel, 1 "rphiRecHit", 2 "stereoRecHit", 3 "rphiRecHitUnmatched" 4 "stereoRecHitUnmatched"
 
       std::vector<int>  hit_simtrack_id;
       std::vector<unsigned int>  hit_simtrack_index;
@@ -233,6 +234,7 @@ class SaveHits : public edm::EDAnalyzer {
       std::vector<std::vector<float> > track_hit_local_y_error;
       std::vector<std::vector<unsigned int> >  track_hit_sub_det; //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
       std::vector<std::vector<unsigned int> >  track_hit_layer;
+      //std::vector<std::vector<unsigned int> >  track_hit_type; // 0 pixel, 1 "rphiRecHit", 2 "stereoRecHit", 3 "rphiRecHitUnmatched" 4 "stereoRecHitUnmatched"
 
 
 };
@@ -329,6 +331,7 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    // hits_tree->Branch("hit_cluster_size_y",&hit_cluster_size_y);
    hits_tree->Branch("hit_sub_det",&hit_sub_det);
    hits_tree->Branch("hit_layer",&hit_layer);
+   hits_tree->Branch("hit_type",&hit_type);
 
    hits_tree->Branch("hit_simtrack_id",&hit_simtrack_id);
    hits_tree->Branch("hit_simtrack_index",&hit_simtrack_index);
@@ -420,6 +423,7 @@ SaveHits::SaveHits(const edm::ParameterSet& iConfig)
    hits_tree->Branch("track_hit_local_y_error",&track_hit_local_y_error);
    hits_tree->Branch("track_hit_sub_det",&track_hit_sub_det); //1 PixelBarrel, 2 PixelEndcap, 3 TIB, 4 TOB, 5 TID, 6 TEC
    hits_tree->Branch("track_hit_layer",&track_hit_layer);
+   //hits_tree->Branch("track_hit_type",&track_hit_type);
 
 
 }
@@ -468,6 +472,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   // hit_cluster_size_y.clear();
   hit_sub_det.clear();
   hit_layer.clear();
+  hit_type.clear();
 
   hit_simtrack_id.clear();
   hit_simtrack_index.clear();
@@ -556,6 +561,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
   track_hit_local_y_error.clear();
   track_hit_sub_det.clear();
   track_hit_layer.clear();
+  //track_hit_type.clear();
 
   edm::ESHandle<TrackerGeometry> geom;
   iSetup.get<TrackerDigiGeometryRecord>().get( geom );
@@ -821,6 +827,7 @@ SaveHits::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
       
         hit_sub_det.push_back(subid);
         hit_layer.push_back(layer);
+        hit_type.push_back(0);
         hit_global_x.push_back(GP.x());
         hit_global_y.push_back(GP.y());
         hit_global_z.push_back(GP.z());
@@ -987,6 +994,7 @@ for (unsigned int the_collection=0; the_collection<collections.size();the_collec
         //   std::cout<<lp.x()<<std::endl;
         hit_sub_det.push_back(subid);
         hit_layer.push_back(layer);
+        hit_type.push_back(the_collection+1);
         hit_global_x.push_back(GP.x());
         hit_global_y.push_back(GP.y());
         hit_global_z.push_back(GP.z());

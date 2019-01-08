@@ -73,8 +73,8 @@ process.mix.input.fileNames = cms.untracked.vstring(['root://eospublic.cern.ch//
 from Configuration.AlCa.GlobalTag import GlobalTag
 #process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V7N.db')
-#process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V7N::All', '')
-process.GlobalTag.globaltag = 'START53_V7N::All'
+process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V7N::All', '')
+#process.GlobalTag.globaltag = 'START53_V7N::All'
 
 
 
