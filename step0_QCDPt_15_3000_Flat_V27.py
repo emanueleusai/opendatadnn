@@ -27,6 +27,13 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32(10)
 )
 
+# process.ht_filter = cms.EDFilter("GenHTFilter",
+#     src = cms.InputTag("ak7GenJets"),
+#     jetEtaCut = cms.untracked.double(3.0),
+#     jetPtCut = cms.untracked.double(50),
+#     genHTcut = cms.untracked.double(600)
+# )
+
 # Input source
 process.source = cms.Source("EmptySource")
 
@@ -96,7 +103,8 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
             'MSTP(81)=21    ! multiple parton interactions 1 is Pythia default', 
             'MSTP(82)=4     ! Defines the multi-parton model'),
         processParameters = cms.vstring('MSEL = 1        ! QCD hight pT processes', 
-            'CKIN(3) = 15    ! minimum pt hat for hard interactions', 
+#            'CKIN(3) = 15    ! minimum pt hat for hard interactions', 
+            'CKIN(3) = 600    ! minimum pt hat for hard interactions', 
             'CKIN(4) = 3000  ! maximum pt hat for hard interactions', 
             'MSTP(142) = 2   ! Turns on the PYWEVT Pt reweighting routine'),
         parameterSets = cms.vstring('pythiaUESettings', 
@@ -109,7 +117,7 @@ process.generator = cms.EDFilter("Pythia6GeneratorFilter",
 
 
 # Path and EndPath definitions
-process.generation_step = cms.Path(process.pgen)
+process.generation_step = cms.Path(process.pgen)#+process.ht_filter)
 process.simulation_step = cms.Path(process.psim)
 process.genfiltersummary_step = cms.EndPath(process.genFilterSummary)
 process.endjob_step = cms.EndPath(process.endOfProcess)

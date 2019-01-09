@@ -6,6 +6,18 @@ process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
     fileNames = cms.untracked.vstring('file:ttbar.root')
 )
+
+
+
+process.particle_filter = cms.EDFilter("MCSingleParticleFilter",
+    MaxEta = cms.untracked.vdouble(3.0, 3.0),
+    MinEta = cms.untracked.vdouble(-3.0, -3.0),
+    Status = cms.untracked.vint32(0, 0),
+    MinPt = cms.untracked.vdouble(300.0, 300.0),
+    ParticleID = cms.untracked.vint32(6, -6)
+)
+#process.custom_filter=cms.Path(process.particle_filter)
+
 process.MEtoEDMConverter = cms.EDProducer("MEtoEDMConverter",
     deleteAfterCopy = cms.untracked.bool(True),
     Verbosity = cms.untracked.int32(0),
@@ -2009,7 +2021,9 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         'keep FEDRawDataCollection_rawDataCollector_*_*', 
         'keep *_MEtoEDMConverter_*_*', 
         'keep *_randomEngineStateProducer_*_*', 
-        'keep *_logErrorHarvester_*_*'),
+        'keep *_logErrorHarvester_*_*',
+        'drop *_*_*_SIM'
+        ),
     fileName = cms.untracked.string('../../step0_ttbar_V27.root'),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     splitLevel = cms.untracked.int32(0),
@@ -2086,7 +2100,7 @@ process.pgen = cms.Sequence(cms.SequencePlaceholder("randomEngineStateProducer")
 process.fixGenInfo = cms.Sequence(process.GeneInfo+process.genJetMET)
 
 
-process.generation_step = cms.Path(process.generator+process.pgen)
+process.generation_step = cms.Path(process.generator+process.pgen+process.particle_filter)
 
 
 process.simulation_step = cms.Path(process.generator+process.psim)
@@ -7352,7 +7366,7 @@ process.fieldScaling = cms.PSet(
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(30)
 )
 
 process.mixCaloHits = cms.PSet(
