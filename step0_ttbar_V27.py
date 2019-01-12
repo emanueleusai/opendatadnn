@@ -2024,7 +2024,7 @@ process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
         'keep *_logErrorHarvester_*_*',
         'drop *_*_*_SIM'
         ),
-    fileName = cms.untracked.string('../../step0_ttbar_V27.root'),
+    fileName = cms.untracked.string('file:step0_ttbar_V27.root'),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
     splitLevel = cms.untracked.int32(0),
     dataset = cms.untracked.PSet(
@@ -2658,7 +2658,7 @@ process.GlobalTag = cms.ESSource("PoolDBESSource",
     ),
     BlobStreamerName = cms.untracked.string('TBufferBlobStreamingService'),
     toGet = cms.VPSet(),
-    connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db'),
+    #connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db'),
     globaltag = cms.string('START53_V27::All')
 )
 
