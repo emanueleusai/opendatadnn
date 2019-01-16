@@ -2,9 +2,13 @@ import FWCore.ParameterSet.Config as cms
 
 process = cms.Process("SIM2")
 
+
+#the_files=open('CMS_MonteCarlo2012_Summer12_DR53X_TTJets_HadronicMGDecays_8TeV-madgraph_AODSIM_PU_RD1_START53_V7N-v1_10000_file_index.txt').read().splitlines()
 process.source = cms.Source("PoolSource",
+#process.source = cms.Source("LHESource",
     secondaryFileNames = cms.untracked.vstring(),
-    fileNames = cms.untracked.vstring('file:ttbar.root')
+    #fileNames = cms.untracked.vstring(the_files)
+    fileNames = cms.untracked.vstring('root://eospublic.cern.ch//eos/opendata/cms/MonteCarlo2012/Summer12_DR53X/TTJets_HadronicMGDecays_8TeV-madgraph/AODSIM/PU_RD1_START53_V7N-v1/10000/000F52C6-92D4-E211-9F73-90E6BA442F0E.root')
 )
 
 
@@ -665,7 +669,7 @@ process.g4SimHits = cms.EDProducer("OscarProducer",
         TreeHadID = cms.string('hadParticles'),
         Verbosity = cms.untracked.bool(False),
         BackProbability = cms.double(0.2),
-        FileName = cms.FileInPath('SimG4CMS/Calo/data/hfshowerlibrary_lhep_140_edm.root'),
+        #FileName = cms.FileInPath('SimG4CMS/Calo/data/hfshowerlibrary_lhep_140_edm.root'),
         TreeEMID = cms.string('emParticles'),
         BranchPre = cms.untracked.string('HFShowerPhotons_hfshowerlib_')
     ),
@@ -2659,6 +2663,7 @@ process.GlobalTag = cms.ESSource("PoolDBESSource",
     BlobStreamerName = cms.untracked.string('TBufferBlobStreamingService'),
     toGet = cms.VPSet(),
     #connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db'),
+    connect = cms.string('frontier://FrontierProd/CMS_COND_31X_GLOBALTAG'),
     globaltag = cms.string('START53_V27::All')
 )
 
@@ -7366,7 +7371,7 @@ process.fieldScaling = cms.PSet(
 )
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(30)
+    input = cms.untracked.int32(100)
 )
 
 process.mixCaloHits = cms.PSet(
