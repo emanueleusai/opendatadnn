@@ -1,4 +1,5 @@
 import FWCore.ParameterSet.Config as cms
+from step2_qcd_p8_03_list import filelist
 
 process = cms.Process("Demo")
 
@@ -29,7 +30,8 @@ process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
         #'file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'
-        'file:../../step2_qcd8_V27.root'
+        #'file:../../step2_qcd8_V27.root'
+        filelist
     )
 )
 
