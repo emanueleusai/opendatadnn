@@ -24,14 +24,14 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(-1)
 )
 
 # Input source
 process.source = cms.Source("PoolSource",
     secondaryFileNames = cms.untracked.vstring(),
     # fileNames = cms.untracked.vstring('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step1_qcd8.root')
-    fileNames = cms.untracked.vstring('file:../../step1_QCDPt_15_3000_Flat_V27.root')
+    fileNames = cms.untracked.vstring('file:step1_QCDPt_15_3000_Flat_V27.root')
     # fileNames = cms.untracked.vstring('file:step1_qcd8.root')
 )
 
@@ -52,7 +52,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
     eventAutoFlushCompressedSize = cms.untracked.int32(15728640),
     outputCommands = process.AODSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*','keep *_g4SimHits_*_*','keep *_generalTracks_*_*'),#+cms.untracked.vstring('keep *_siStripMatchedRecHits_*_*','keep *_siPixelRecHits_*_*','keep *_siPixelClusters_*_*','keep *_siStripClusters_*_*'),#cms.untracked.vstring('keep *'),#process.AODSIMEventContent.outputCommands,
     #fileName = cms.untracked.string('file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'),
-    fileName = cms.untracked.string('file:../../step2_QCDPt_15_3000_Flat_V27.root'),
+    fileName = cms.untracked.string('file:step2_QCDPt_15_3000_Flat_V27.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('AODSIM')
@@ -75,7 +75,7 @@ process.AODSIMoutput = cms.OutputModule("PoolOutputModule",
 process.mix.playback = True
 process.RandomNumberGeneratorService.restoreStateLabel=cms.untracked.string("randomEngineStateProducer")
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
+#process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
 process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 # process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V7N::All', '')
 
