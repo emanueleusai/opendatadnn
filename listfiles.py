@@ -20,14 +20,17 @@ folders=[
  # '/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD600to3000_05/190112_021607/',
  # '/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD600to3000_06/190112_021631/'
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD600to3000_01/190209_014953/',
-'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD600to3000_02/190209_022632/'
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD600to3000_02/190209_022632/'
+'/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_01/190213_183439/',
+'/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_02/190213_201625/'
+
 
  ]
 
 sub=['0000/','0001/','0002/','0003/','0004/']#,'0005/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
-outname='step1_QCDPt_15to3000_02'
+outname='step2_QCDPt_15to3000'
 
 xrootd='root://cmsxrootd-site.fnal.gov/'
 outfile=open(outname,'w')
