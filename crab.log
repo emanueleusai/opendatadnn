@@ -235,3 +235,40 @@ Traceback (most recent call last):
   File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1812/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 46, in loadConfig
     raise ConfigurationException("CRAB configuration file %s not found." % (configname))
 ConfigurationException: CRAB configuration file crabConfig.py not found.
+DEBUG 2019-02-22 00:01:04,335: 	 Executing command: 'submit'
+DEBUG 2019-02-22 00:01:04,336: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-22 00:01:04,385: 	 Checking credentials
+DEBUG 2019-02-22 00:01:04,386: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-22 00:01:04,387: 	 Getting proxy life time left
+DEBUG 2019-02-22 00:01:05,292: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42190
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-22 00:01:06,101: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42189
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-22 00:01:06,102: 	 Proxy lifetime 42190 secs is different from voms extension lifetime 42189 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-22 00:01:06,102: 	 Proxy valid for 11:43:09 hours
+INFO 2019-02-22 00:01:06,102: 	 Will use CRAB configuration file crab_step3_TtbarFromOpen.py
+DEBUG 2019-02-22 00:01:06,102: 	 Loading CRAB configuration file.
+INFO 2019-02-22 00:01:06,166: 	 Wrong format in command-line argument '--dryrun'. Expected format is <section-name>.<parameter-name>=<parameter-value>.
+INFO 2019-02-22 00:01:06,166: 	 If the argument '--dryrun' is an option to the submit command, try 'crab submit --dryrun [value for --dryrun option (if required)] [arguments]'.
+ERROR 2019-02-22 00:01:06,166: 	 ERROR: Wrong command-line format.
+ERROR 2019-02-22 00:01:06,166: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 309, in __init__
+    self.loadConfig(self.options.config, self.args)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 65, in loadConfig
+    raise ConfigurationException("ERROR: Wrong command-line format.")
+ConfigurationException: ERROR: Wrong command-line format.

@@ -21,16 +21,23 @@ folders=[
  # '/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD600to3000_06/190112_021631/'
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD600to3000_01/190209_014953/',
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD600to3000_02/190209_022632/'
-'/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_01/190213_183439/',
-'/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_02/190213_201625/'
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_01/190213_183439/',
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_02/190213_201625/'
+# '/store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_00/190116_172403/',
+# '/store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_01/190116_172524/',
+# '/store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_02/190116_172614/',
+# '/store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_03/190116_172738/'
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step1_TtbarFromOpen_02/190219_230502/'
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD600to3000_01/190218_183745/'
 
-
+'/store/group/lpcml/eusai/CRAB_UserFiles/step3_TtbarFromOpen_02/190221_230406/'
  ]
 
-sub=['0000/','0001/','0002/','0003/','0004/']#,'0005/']
+sub=['0000/','0001/']#,'0002/','0003/']#,'0004/']#,'0005/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
-outname='step2_QCDPt_15to3000'
+outname='step3_TtbarFromOpen'
+#outname='step3_QCD600to300'
 
 xrootd='root://cmsxrootd-site.fnal.gov/'
 outfile=open(outname,'w')
@@ -39,6 +46,7 @@ for i in folders:
 	for j in sub:
 		folder=i+j
 		eosls=subprocess.check_output(['eos','root://cmseos.fnal.gov','ls',folder])
+		#print eosls
 		names=eosls.splitlines()
 		if 'log' in names:
 			names.remove('log')

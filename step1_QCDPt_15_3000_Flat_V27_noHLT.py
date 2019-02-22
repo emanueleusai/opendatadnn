@@ -18,7 +18,7 @@ process.load('Configuration.StandardSequences.MagneticField_38T_cff')
 process.load('Configuration.StandardSequences.Digi_cff')
 process.load('Configuration.StandardSequences.SimL1Emulator_cff')
 process.load('Configuration.StandardSequences.DigiToRaw_cff')
-process.load('HLTrigger.Configuration.HLT_7E33v2_cff')
+#process.load('HLTrigger.Configuration.HLT_7E33v2_cff')
 process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
@@ -32,7 +32,14 @@ process.source = cms.Source("PoolSource",
     fileNames = cms.untracked.vstring(
         # 'file:step0_qcd6.root'
         'file:step0_QCD600to3000.root ' 
+        # 'root://cmsxrootd-site.fnal.gov//store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_00/190116_172403/0000/step0_ttbar_V27_116.root',
+        # 'root://cmsxrootd-site.fnal.gov//store/user/bburkle/E2E/opendata/step0/CRAB_UserFiles/step0_TtbarHad_00/190116_172403/0000/step0_ttbar_V27_117.root'
         ),
+    # inputCommands=cms.untracked.vstring(
+    #               'keep *',
+    #               'drop *_*_*_HLT',
+    #               #'keep FEDRawDataCollection_*_*_*'
+    #       )
     #setRunNumber = cms.untracked.uint32(206859)
 )
 
@@ -52,9 +59,9 @@ process.configurationMetadata = cms.untracked.PSet(
 process.RAWSIMoutput = cms.OutputModule("PoolOutputModule",
     splitLevel = cms.untracked.int32(0),
     eventAutoFlushCompressedSize = cms.untracked.int32(5242880),
-    outputCommands = process.RAWSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*'),
+    outputCommands = process.RAWSIMEventContent.outputCommands+cms.untracked.vstring('keep *_simSiPixelDigis_*_*','keep *_simSiStripDigis_*_*','drop *_*_*_HLT'),
     # fileName = cms.untracked.string('file:step1_qcd6.root'),
-    fileName = cms.untracked.string('file:step1_QCDPt_15_3000_Flat_V27.root'),
+    fileName = cms.untracked.string('file:step1_TtbarFromOpen.root'),
     dataset = cms.untracked.PSet(
         filterName = cms.untracked.string(''),
         dataTier = cms.untracked.string('GEN-SIM-RAW')
@@ -87,21 +94,23 @@ process.RAWSIMoutput_step = cms.EndPath(process.RAWSIMoutput)
 
 # Schedule definition
 process.schedule = cms.Schedule(process.digitisation_step,process.L1simulation_step,process.digi2raw_step)
-process.schedule.extend(process.HLTSchedule)
+#process.schedule.extend(process.HLTSchedule)
 process.schedule.extend([process.endjob_step,process.RAWSIMoutput_step])
 
 # customisation of the process.
 
 # Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
-from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC 
+#from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC 
 
 #call to customisation function customizeHLTforMC imported from HLTrigger.Configuration.customizeHLTforMC
-process = customizeHLTforMC(process)
+#process = customizeHLTforMC(process)
 
 # Automatic addition of the customisation function from Configuration.DataProcessing.Utils
-from Configuration.DataProcessing.Utils import addMonitoring 
+#from Configuration.DataProcessing.Utils import addMonitoring 
 
 #call to customisation function addMonitoring imported from Configuration.DataProcessing.Utils
-process = addMonitoring(process)
+#process = addMonitoring(process)
+
+#process.schedule.remove(process.DQM_FEDIntegrity_v10)
 
 # End of customisation functions

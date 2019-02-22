@@ -20,7 +20,7 @@ process.load("RecoTracker.TrackProducer.TrackRefitters_cff")
 #process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_LV6A1.db')
 # process.GlobalTag.globaltag = 'START53_LV6A1::All'
 from Configuration.AlCa.GlobalTag import GlobalTag
-process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
+#process.GlobalTag.connect = cms.string('sqlite_file:/cvmfs/cms-opendata-conddb.cern.ch/START53_V27.db')
 process.GlobalTag = GlobalTag(process.GlobalTag, 'START53_V27::All', '')
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
@@ -29,7 +29,9 @@ process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
         #'file:/afs/cern.ch/work/e/eusai/public/opendata/files/step2_qcd8.root'
-        'file:../../step2_QCDPt_15_3000_Flat_V27.root'
+        'file:step2_QCDPt_15_3000_Flat_V27.root'
+        #'root://cmsxrootd-site.fnal.gov//store/group/lpcml/eusai/CRAB_UserFiles/step2_TtbarFromOpen_01/190220_154334/0003/step2_TtbarFromOpen_3343.root'
+        #'root://cmsxrootd-site.fnal.gov//store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD600to3000_01/190213_183439/0000/step2_QCDPt_15_3000_Flat_V27_1.root'
     )
 )
 
