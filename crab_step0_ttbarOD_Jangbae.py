@@ -1,14 +1,14 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-the_name='step0_ttbarOD_Sitong'
+the_name='step0_ttbarOD_Jangbae'
 config.General.requestName = the_name
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
 config.General.transferLogs = True
 
 config.JobType.pluginName = 'PrivateMC'
-config.JobType.psetName = 'step0_ttbarOD_Sitong.py'
+config.JobType.psetName = 'step0_ttbarOD_Jangbae.py'
 config.JobType.maxMemoryMB = 2000
 config.JobType.numCores = 1
 
@@ -16,7 +16,7 @@ config.JobType.numCores = 1
 #config.Data.inputDBS = 'global'
 config.Data.splitting = 'EventBased'
 config.Data.unitsPerJob = 200
-config.Data.outLFNDirBase = '/store/group/lpcml/'# % (getUsernameFromSiteDB())
+config.Data.outLFNDirBase = '/store/user/%s/' % (getUsernameFromSiteDB())
 config.Data.publication = False
 config.Data.outputDatasetTag = the_name
 config.Data.ignoreLocality = True

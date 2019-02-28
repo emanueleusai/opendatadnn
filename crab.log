@@ -272,3 +272,383 @@ Traceback (most recent call last):
   File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 65, in loadConfig
     raise ConfigurationException("ERROR: Wrong command-line format.")
 ConfigurationException: ERROR: Wrong command-line format.
+DEBUG 2019-02-28 00:24:21,097: 	 Executing command: 'checkwrite'
+DEBUG 2019-02-28 00:24:21,098: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 00:24:21,196: 	 Checking credentials
+DEBUG 2019-02-28 00:24:21,198: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:24:21,198: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:24:22,004: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42122
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:24:22,812: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42121
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:24:22,812: 	 Proxy lifetime 42122 secs is different from voms extension lifetime 42121 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:24:22,812: 	 Proxy valid for 11:42:01 hours
+DEBUG 2019-02-28 00:24:22,932: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=eusai/CN=693006/CN=Emanuele Usai
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:24:22,932: 	 Checking credentials
+DEBUG 2019-02-28 00:24:22,932: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:24:22,933: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:24:23,741: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42120
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:24:24,553: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42119
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:24:24,554: 	 Proxy lifetime 42120 secs is different from voms extension lifetime 42119 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:24:24,554: 	 Proxy valid for 11:41:59 hours
+DEBUG 2019-02-28 00:24:25,368: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50765 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+ERROR 2019-02-28 00:24:25,369: 	 Error: Please specify the site where to check the write permissions. Use the --site option.
+ERROR 2019-02-28 00:24:25,369: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/checkwrite.py", line 22, in __init__
+    SubCommand.__init__(self, logger, cmdargs)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 351, in __init__
+    self.validateOptions()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/checkwrite.py", line 262, in validateOptions
+    raise ex
+MissingOptionException: [91mError[0m: Please specify the site where to check the write permissions. Use the --site option.
+DEBUG 2019-02-28 00:25:29,042: 	 Executing command: 'checkwrite'
+DEBUG 2019-02-28 00:25:29,042: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 00:25:29,053: 	 Checking credentials
+DEBUG 2019-02-28 00:25:29,055: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:25:29,055: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:25:30,063: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42054
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:30,971: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42053
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:30,971: 	 Proxy lifetime 42054 secs is different from voms extension lifetime 42053 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:25:30,971: 	 Proxy valid for 11:40:53 hours
+DEBUG 2019-02-28 00:25:31,088: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=eusai/CN=693006/CN=Emanuele Usai
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:31,089: 	 Checking credentials
+DEBUG 2019-02-28 00:25:31,089: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:25:31,089: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:25:31,996: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42052
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:32,802: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42051
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:32,802: 	 Proxy lifetime 42052 secs is different from voms extension lifetime 42051 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:25:32,802: 	 Proxy valid for 11:40:51 hours
+DEBUG 2019-02-28 00:25:33,709: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50765 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:25:33,710: 	 Command use: checkwrite
+DEBUG 2019-02-28 00:25:33,710: 	 Options use: ['--site=T3_US_FNALLPC', '--lfn=/store/group/lpcml/']
+DEBUG 2019-02-28 00:25:33,710: 	 Instance is None
+DEBUG 2019-02-28 00:25:33,710: 	 Server base url is None
+INFO 2019-02-28 00:25:33,714: 	 Validating LFN /store/group/lpcml/...
+INFO 2019-02-28 00:25:33,714: 	 LFN /store/group/lpcml/ is valid.
+INFO 2019-02-28 00:25:33,743: 	 Will use `gfal-copy`, `gfal-rm` commands for checking write permissions
+INFO 2019-02-28 00:25:33,754: 	 Will check write permission in /store/group/lpcml/ on site T3_US_FNALLPC
+INFO 2019-02-28 00:25:34,228: 	 
+Attempting to create (dummy) directory crab3checkwrite_20190228_002533 and copy (dummy) file crab3checkwrite_20190228_002533.tmp to /store/group/lpcml/
+
+INFO 2019-02-28 00:25:34,234: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-copy -p -v -t 180 file:///afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab3checkwrite_20190228_002533.tmp 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/crab3checkwrite_20190228_002533.tmp'
+INFO 2019-02-28 00:25:34,246: 	 Please wait...
+INFO 2019-02-28 00:25:38,011: 	 
+Successfully created directory crab3checkwrite_20190228_002533 and copied file crab3checkwrite_20190228_002533.tmp to /store/group/lpcml/
+INFO 2019-02-28 00:25:38,012: 	 
+Attempting to delete file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/crab3checkwrite_20190228_002533.tmp
+
+INFO 2019-02-28 00:25:38,012: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/crab3checkwrite_20190228_002533.tmp'
+INFO 2019-02-28 00:25:38,012: 	 Please wait...
+INFO 2019-02-28 00:25:40,425: 	 
+Successfully deleted file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/crab3checkwrite_20190228_002533.tmp
+INFO 2019-02-28 00:25:40,426: 	 
+Attempting to delete directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/
+
+INFO 2019-02-28 00:25:40,426: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -r -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/'
+INFO 2019-02-28 00:25:40,426: 	 Please wait...
+INFO 2019-02-28 00:25:43,723: 	 
+Successfully deleted directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml//crab3checkwrite_20190228_002533/
+INFO 2019-02-28 00:25:43,725: 	 
+Checkwrite Result:
+INFO 2019-02-28 00:25:43,725: 	 Success: Able to write in /store/group/lpcml/ on site T3_US_FNALLPC
+DEBUG 2019-02-28 00:26:03,838: 	 Executing command: 'checkwrite'
+DEBUG 2019-02-28 00:26:03,839: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 00:26:03,846: 	 Checking credentials
+DEBUG 2019-02-28 00:26:03,847: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:03,847: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:26:06,160: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42017
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:07,074: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42016
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:07,075: 	 Proxy lifetime 42017 secs is different from voms extension lifetime 42016 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:07,075: 	 Proxy valid for 11:40:16 hours
+DEBUG 2019-02-28 00:26:07,189: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=eusai/CN=693006/CN=Emanuele Usai
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:07,190: 	 Checking credentials
+DEBUG 2019-02-28 00:26:07,190: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:07,190: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:26:08,106: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 42016
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:08,912: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 42015
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:08,913: 	 Proxy lifetime 42016 secs is different from voms extension lifetime 42015 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:08,913: 	 Proxy valid for 11:40:15 hours
+DEBUG 2019-02-28 00:26:09,827: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50765 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:09,828: 	 Command use: checkwrite
+DEBUG 2019-02-28 00:26:09,828: 	 Options use: ['--site=T3_US_FNALLPC', '--lfn=/store/group/lpcml/eusai/']
+DEBUG 2019-02-28 00:26:09,828: 	 Instance is None
+DEBUG 2019-02-28 00:26:09,828: 	 Server base url is None
+INFO 2019-02-28 00:26:09,830: 	 Validating LFN /store/group/lpcml/eusai/...
+INFO 2019-02-28 00:26:09,830: 	 LFN /store/group/lpcml/eusai/ is valid.
+INFO 2019-02-28 00:26:09,849: 	 Will use `gfal-copy`, `gfal-rm` commands for checking write permissions
+INFO 2019-02-28 00:26:09,850: 	 Will check write permission in /store/group/lpcml/eusai/ on site T3_US_FNALLPC
+INFO 2019-02-28 00:26:10,253: 	 
+Attempting to create (dummy) directory crab3checkwrite_20190228_002609 and copy (dummy) file crab3checkwrite_20190228_002609.tmp to /store/group/lpcml/eusai/
+
+INFO 2019-02-28 00:26:10,258: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-copy -p -v -t 180 file:///afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab3checkwrite_20190228_002609.tmp 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/crab3checkwrite_20190228_002609.tmp'
+INFO 2019-02-28 00:26:10,259: 	 Please wait...
+INFO 2019-02-28 00:26:13,624: 	 
+Successfully created directory crab3checkwrite_20190228_002609 and copied file crab3checkwrite_20190228_002609.tmp to /store/group/lpcml/eusai/
+INFO 2019-02-28 00:26:13,625: 	 
+Attempting to delete file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/crab3checkwrite_20190228_002609.tmp
+
+INFO 2019-02-28 00:26:13,626: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/crab3checkwrite_20190228_002609.tmp'
+INFO 2019-02-28 00:26:13,626: 	 Please wait...
+INFO 2019-02-28 00:26:16,218: 	 
+Successfully deleted file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/crab3checkwrite_20190228_002609.tmp
+INFO 2019-02-28 00:26:16,218: 	 
+Attempting to delete directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/
+
+INFO 2019-02-28 00:26:16,219: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -r -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/'
+INFO 2019-02-28 00:26:16,219: 	 Please wait...
+INFO 2019-02-28 00:26:19,352: 	 
+Successfully deleted directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/eusai//crab3checkwrite_20190228_002609/
+INFO 2019-02-28 00:26:19,354: 	 
+Checkwrite Result:
+INFO 2019-02-28 00:26:19,354: 	 Success: Able to write in /store/group/lpcml/eusai/ on site T3_US_FNALLPC
+DEBUG 2019-02-28 00:26:40,430: 	 Executing command: 'checkwrite'
+DEBUG 2019-02-28 00:26:40,430: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 00:26:40,454: 	 Checking credentials
+DEBUG 2019-02-28 00:26:40,456: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:40,456: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:26:41,264: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 41982
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:42,071: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 41981
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:42,071: 	 Proxy lifetime 41982 secs is different from voms extension lifetime 41981 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:42,071: 	 Proxy valid for 11:39:41 hours
+DEBUG 2019-02-28 00:26:42,184: 	 Executing : 
+ command : openssl x509 -in ~/.globus/usercert.pem -subject -noout
+ output : subject= /DC=ch/DC=cern/OU=Organic Units/OU=Users/CN=eusai/CN=693006/CN=Emanuele Usai
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:42,184: 	 Checking credentials
+DEBUG 2019-02-28 00:26:42,184: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:42,185: 	 Getting proxy life time left
+DEBUG 2019-02-28 00:26:42,995: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 41981
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:43,808: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 41980
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:43,809: 	 Proxy lifetime 41981 secs is different from voms extension lifetime 41980 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 00:26:43,809: 	 Proxy valid for 11:39:40 hours
+DEBUG 2019-02-28 00:26:44,920: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50765 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 00:26:44,921: 	 Command use: checkwrite
+DEBUG 2019-02-28 00:26:44,921: 	 Options use: ['--site=T3_US_FNALLPC', '--lfn=/store/group/lpcml/sitong/']
+DEBUG 2019-02-28 00:26:44,921: 	 Instance is None
+DEBUG 2019-02-28 00:26:44,921: 	 Server base url is None
+INFO 2019-02-28 00:26:44,924: 	 Validating LFN /store/group/lpcml/sitong/...
+INFO 2019-02-28 00:26:44,925: 	 LFN /store/group/lpcml/sitong/ is valid.
+INFO 2019-02-28 00:26:44,943: 	 Will use `gfal-copy`, `gfal-rm` commands for checking write permissions
+INFO 2019-02-28 00:26:44,945: 	 Will check write permission in /store/group/lpcml/sitong/ on site T3_US_FNALLPC
+INFO 2019-02-28 00:26:45,406: 	 
+Attempting to create (dummy) directory crab3checkwrite_20190228_002644 and copy (dummy) file crab3checkwrite_20190228_002644.tmp to /store/group/lpcml/sitong/
+
+INFO 2019-02-28 00:26:45,413: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-copy -p -v -t 180 file:///afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab3checkwrite_20190228_002644.tmp 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/crab3checkwrite_20190228_002644.tmp'
+INFO 2019-02-28 00:26:45,414: 	 Please wait...
+INFO 2019-02-28 00:26:48,740: 	 
+Successfully created directory crab3checkwrite_20190228_002644 and copied file crab3checkwrite_20190228_002644.tmp to /store/group/lpcml/sitong/
+INFO 2019-02-28 00:26:48,740: 	 
+Attempting to delete file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/crab3checkwrite_20190228_002644.tmp
+
+INFO 2019-02-28 00:26:48,741: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/crab3checkwrite_20190228_002644.tmp'
+INFO 2019-02-28 00:26:48,741: 	 Please wait...
+INFO 2019-02-28 00:26:51,299: 	 
+Successfully deleted file gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/crab3checkwrite_20190228_002644.tmp
+INFO 2019-02-28 00:26:51,299: 	 
+Attempting to delete directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/
+
+INFO 2019-02-28 00:26:51,299: 	 Executing command: which scram >/dev/null 2>&1 && eval `scram unsetenv -sh`; gfal-rm -r -v -t 180 'gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/'
+INFO 2019-02-28 00:26:51,300: 	 Please wait...
+INFO 2019-02-28 00:26:54,421: 	 
+Successfully deleted directory gsiftp://cmseos-gridftp.fnal.gov//eos/uscms/store/group/lpcml/sitong//crab3checkwrite_20190228_002644/
+INFO 2019-02-28 00:26:54,423: 	 
+Checkwrite Result:
+INFO 2019-02-28 00:26:54,423: 	 Success: Able to write in /store/group/lpcml/sitong/ on site T3_US_FNALLPC
+DEBUG 2019-02-28 22:51:04,137: 	 Executing command: 'submit'
+DEBUG 2019-02-28 22:51:04,137: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 22:51:04,150: 	 Checking credentials
+DEBUG 2019-02-28 22:51:04,151: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 22:51:04,152: 	 Getting proxy life time left
+DEBUG 2019-02-28 22:51:05,480: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 41113
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 22:51:06,503: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 41112
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 22:51:06,503: 	 Proxy lifetime 41113 secs is different from voms extension lifetime 41112 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 22:51:06,503: 	 Proxy valid for 11:25:12 hours
+INFO 2019-02-28 22:51:06,505: 	 Will use CRAB configuration file crab_step0_ttbarOD_Daniel.py
+DEBUG 2019-02-28 22:51:06,506: 	 Loading CRAB configuration file.
+DEBUG 2019-02-28 22:51:10,261: 	 Will use CRAB PrivateMC plugin (i.e. will run a MC generation job type).
+ERROR 2019-02-28 22:51:10,262: 	 Invalid CRAB configuration:
+ when ignoreLocality is set a valid site white list must be specified using the Site.whitelist parameter
+The documentation about the CRAB configuration file can be found in https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
+ERROR 2019-02-28 22:51:10,262: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 309, in __init__
+    self.loadConfig(self.options.config, self.args)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 92, in loadConfig
+    raise ConfigurationException(configmsg)
+ConfigurationException: Invalid CRAB configuration:
+ when ignoreLocality is set a valid site white list must be specified using the Site.whitelist parameter
+The documentation about the CRAB configuration file can be found in https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3ConfigurationFile
+DEBUG 2019-02-28 22:55:01,608: 	 Executing command: 'submit'
+DEBUG 2019-02-28 22:55:01,608: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-02-28 22:55:01,623: 	 Checking credentials
+DEBUG 2019-02-28 22:55:01,624: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-02-28 22:55:01,625: 	 Getting proxy life time left
+DEBUG 2019-02-28 22:55:02,836: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 40876
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 22:55:03,956: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 40875
+
+ error: 
+ retcode : 0
+DEBUG 2019-02-28 22:55:03,957: 	 Proxy lifetime 40876 secs is different from voms extension lifetime 40875 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-02-28 22:55:03,957: 	 Proxy valid for 11:21:15 hours
+INFO 2019-02-28 22:55:03,959: 	 Will use CRAB configuration file crab_step0_ttbarOD_Daniel.py
+DEBUG 2019-02-28 22:55:03,959: 	 Loading CRAB configuration file.
+DEBUG 2019-02-28 22:55:08,046: 	 Will use CRAB PrivateMC plugin (i.e. will run a MC generation job type).
+ERROR 2019-02-28 22:55:08,047: 	 Working area '/afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab_projects/crab_step0_ttbarOD_Daniel' already exists 
+Please change the requestName in the config file
+ERROR 2019-02-28 22:55:08,048: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 313, in __init__
+    getattr(self.configuration.General, 'requestName', None))
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/ClientUtilities.py", line 404, in createWorkArea
+    raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
+ConfigException: Working area '/afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab_projects/crab_step0_ttbarOD_Daniel' already exists 
+Please change the requestName in the config file
