@@ -24,6 +24,6 @@ config.Data.totalUnits = 1000000
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 #config.Site.ignoreGlobalBlacklist = True
-config.Site.whitelist = ['T2_US_*,','T3_US_*','T2_CH_*,','T3_CH_*','T2_IT_*,','T3_IT_*','T2_DE_*,','T3_DE_*','T2_FR_*,','T3_FR_*',]
+config.Site.whitelist = ['T2_US_*','T3_US_*']
 #config.Site.whitelist = ['T3_US_FNALLPC']
 #config.Site.blacklist = ['T2_US_Florida']

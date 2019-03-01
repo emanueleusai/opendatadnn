@@ -652,3 +652,63 @@ Traceback (most recent call last):
     raise ConfigException("Working area '%s' already exists \nPlease change the requestName in the config file" % fullpath)
 ConfigException: Working area '/afs/cern.ch/work/e/eusai/public/opendata/CMSSW_5_3_32/src/crab_projects/crab_step0_ttbarOD_Daniel' already exists 
 Please change the requestName in the config file
+DEBUG 2019-03-01 00:59:17,114: 	 Executing command: 'submit'
+DEBUG 2019-03-01 00:59:17,121: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-03-01 00:59:17,150: 	 Checking credentials
+DEBUG 2019-03-01 00:59:17,150: 	 Proxy file /tmp/x509up_u50765 not found
+DEBUG 2019-03-01 00:59:17,150: 	 Creating new proxy for 24:00 hours with VO group '' and VO role 'NULL'.
+DEBUG 2019-03-01 00:59:24,744: 	 Executing : 
+ command : voms-proxy-init -voms cms:/cms -valid 24:00 -rfc
+ output : None
+ error: None
+ retcode : 0
+DEBUG 2019-03-01 00:59:25,957: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 86398
+
+ error: 
+ retcode : 0
+DEBUG 2019-03-01 00:59:27,879: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -actimeleft
+ output : 86395
+
+ error: 
+ retcode : 0
+DEBUG 2019-03-01 00:59:27,880: 	 Proxy lifetime 86398 secs is different from voms extension lifetime 86395 secs for proxy: /tmp/x509up_u50765
+DEBUG 2019-03-01 00:59:28,900: 	 Executing : 
+ command : env X509_USER_PROXY=/tmp/x509up_u50765 voms-proxy-info -fqan
+ output : /cms/Role=NULL/Capability=NULL
+
+ error: 
+ retcode : 0
+DEBUG 2019-03-01 00:59:28,900: 	 Proxy created.
+INFO 2019-03-01 00:59:28,900: 	 Will use CRAB configuration file crab_step0_ttbarOD_Daniel.py
+DEBUG 2019-03-01 00:59:28,901: 	 Loading CRAB configuration file.
+INFO 2019-03-01 00:59:33,345: 	 Wrong format in command-line argument '--dryrun'. Expected format is <section-name>.<parameter-name>=<parameter-value>.
+INFO 2019-03-01 00:59:33,345: 	 If the argument '--dryrun' is an option to the submit command, try 'crab submit --dryrun [value for --dryrun option (if required)] [arguments]'.
+ERROR 2019-03-01 00:59:33,346: 	 ERROR: Wrong command-line format.
+ERROR 2019-03-01 00:59:33,346: 	 Caught exception
+Traceback (most recent call last):
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 160, in <module>
+    client()
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/bin/crab", line 146, in __call__
+    self.cmd = sub_cmd(self.logger, args[1:])
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/submit.py", line 34, in __init__
+    SubCommand.__init__(self, logger, cmdargs, disable_interspersed_args=True)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 309, in __init__
+    self.loadConfig(self.options.config, self.args)
+  File "/cvmfs/cms.cern.ch/crab3/slc6_amd64_gcc493/cms/crabclient/3.3.1902.patch1/lib/python2.7/site-packages/CRABClient/Commands/SubCommand.py", line 65, in loadConfig
+    raise ConfigurationException("ERROR: Wrong command-line format.")
+ConfigurationException: ERROR: Wrong command-line format.
+DEBUG 2019-03-01 01:06:46,132: 	 Executing command: 'submit'
+DEBUG 2019-03-01 01:06:46,153: 	 Found CRAB cache file /afs/cern.ch/user/e/eusai/.crab3
+DEBUG 2019-03-01 01:06:46,174: 	 Checking credentials
+DEBUG 2019-03-01 01:06:46,176: 	 Found proxy file /tmp/x509up_u50765
+DEBUG 2019-03-01 01:06:46,176: 	 Getting proxy life time left
+DEBUG 2019-03-01 01:06:47,284: 	 Executing : 
+ command : voms-proxy-info -file /tmp/x509up_u50765 -timeleft
+ output : 85956
+
+ error: 
+ retcode : 0
+ERROR 2019-03-01 01:06:47,518: 	 Keyboard Interrupted
