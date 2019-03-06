@@ -32,8 +32,9 @@ folders=[
 
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step3_TtbarFromOpen_02/190221_230406/'
 
-#'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_03/190303_035256/', #Emanuele
-#'/store/user/bburkle/E2E/opendata/ttbar_production/CRAB_PrivateMC/step0_ttbarOD_Bjorn/190301_215422/', #Bjorn
+'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_03/190303_035256/', #Emanuele
+'/store/user/bburkle/E2E/opendata/ttbar_production/CRAB_PrivateMC/step0_ttbarOD_Bjorn/190301_215422/', #Bjorn
+
 #'/store/group/lpcml/mandrews/CRAB_PrivateMC/step0_ttbarOD_Michaelv2/190302_233412/', #Michael
 #'/store/group/lpcml/CRAB_PrivateMC/step0_ttbarOD_Sitong/190301_181405/', #Sitong
 #'/store/user/dsunyou/CRAB_PrivateMC/step0_ttbarOD_Daniel/190302_022008/', #Daniel
@@ -44,9 +45,9 @@ folders=[
 #'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_Xavier/190304_051928/', #Xavier
 #'/store/user/jblee/CRAB_PrivateMC/step0_ttbarOD_Jangbae/190304_154655/', #Jangbae
 
-'/store/user/gbenelli/CRAB_PrivateMC/step0_QCD300to600/190301_203149/', #Gabriele
-'/store/group/lpcljm/CRAB_PrivateMC/step0_QCD300to600/190304_215657/', #Meenakshi
-'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD300to600/190302_041540/', #Emanuele QCD
+# '/store/user/gbenelli/CRAB_PrivateMC/step0_QCD300to600/190301_203149/', #Gabriele
+# '/store/group/lpcljm/CRAB_PrivateMC/step0_QCD300to600/190304_215657/', #Meenakshi
+# '/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD300to600/190302_041540/', #Emanuele QCD
  ]
 
 sub=['0000/','0001/','0002/','0003/','0004/','0005/']
@@ -56,8 +57,8 @@ sub=['0000/','0001/','0002/','0003/','0004/','0005/']
 #outname='step3_QCD600to300'
 outnames=[
 
-#'step0_ttbarOD_Emanuele',
-#'step0_ttbarOD_Bjorn',
+'step0_ttbarOD_Emanuele',
+'step0_ttbarOD_Bjorn',
 #'step0_ttbarOD_Michael',
 #'step0_ttbarOD_Sitong',
 #'step0_ttbarOD_Daniel',
@@ -68,9 +69,9 @@ outnames=[
 #'step0_ttbarOD_Xavier',
 #'step0_ttbarOD_Jangbae',
 
-'step0_QCD300to600_Gabriele',
-'step0_QCD300to600_Meenakshi',
-'step0_QCD300to600_Emanuele',
+# 'step0_QCD300to600_Gabriele',
+# 'step0_QCD300to600_Meenakshi',
+# 'step0_QCD300to600_Emanuele',
 
 
 ]

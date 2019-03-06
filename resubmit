@@ -1,4 +1,6 @@
 voms-proxy-init -voms cms
+crab status crab_projects/crab_step1_QCD300to600_01
+crab resubmit crab_projects/crab_step1_QCD300to600_01
 #crab status crab_projects/crab_step0_QCD600to3000_01
 #crab status crab_projects/crab_step0_QCD600to3000_02
 #crab status crab_projects/crab_step0_QCD600to3000_03
@@ -30,10 +32,10 @@ voms-proxy-init -voms cms
 #crab status crab_projects/crab_step0_ttbarOD
 #crab resubmit crab_projects/crab_step0_ttbarOD
 #crab status crab_projects/crab_step0_QCD300to600
-crab status crab_projects/crab_step0_ttbarOD_03
+#crab status crab_projects/crab_step0_ttbarOD_03
 #crab status crab_projects/crab_step0_ttbarOD_Sitong
-crab status crab_projects/crab_step0_ttbarOD_Xavier
+#crab status crab_projects/crab_step0_ttbarOD_Xavier
 #crab resubmit crab_projects/crab_step0_QCD300to600
-crab resubmit crab_projects/crab_step0_ttbarOD_03
+#crab resubmit crab_projects/crab_step0_ttbarOD_03
 #crab resubmit crab_projects/crab_step0_ttbarOD_Sitong
-crab resubmit crab_projects/crab_step0_ttbarOD_Xavier
+#crab resubmit crab_projects/crab_step0_ttbarOD_Xavier
