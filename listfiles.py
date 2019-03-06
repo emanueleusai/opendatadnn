@@ -30,21 +30,58 @@ folders=[
 # '/store/group/lpcml/eusai/CRAB_UserFiles/step1_TtbarFromOpen_02/190219_230502/'
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD600to3000_01/190218_183745/'
 
-'/store/group/lpcml/eusai/CRAB_UserFiles/step3_TtbarFromOpen_02/190221_230406/'
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step3_TtbarFromOpen_02/190221_230406/'
+
+#'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_03/190303_035256/', #Emanuele
+#'/store/user/bburkle/E2E/opendata/ttbar_production/CRAB_PrivateMC/step0_ttbarOD_Bjorn/190301_215422/', #Bjorn
+#'/store/group/lpcml/mandrews/CRAB_PrivateMC/step0_ttbarOD_Michaelv2/190302_233412/', #Michael
+#'/store/group/lpcml/CRAB_PrivateMC/step0_ttbarOD_Sitong/190301_181405/', #Sitong
+#'/store/user/dsunyou/CRAB_PrivateMC/step0_ttbarOD_Daniel/190302_022008/', #Daniel
+#'/store/group/lpcljm/CRAB_PrivateMC/step0_ttbarOD_Wenyu/190301_001435/', #Wenyu
+#'/store/user/mhadley/CRAB_PrivateMC/step0_ttbarOD_Mary_v2/190301_222331/', #Mary
+#'/store/user/mhadley/CRAB_PrivateMC/step0_ttbarOD_Mary/190301_000255/', #Mary
+#'/store/group/lpcljm/CRAB_PrivateMC/step0_ttbarOD_Jess/190302_145418/', #Jess
+#'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_Xavier/190304_051928/', #Xavier
+#'/store/user/jblee/CRAB_PrivateMC/step0_ttbarOD_Jangbae/190304_154655/', #Jangbae
+
+'/store/user/gbenelli/CRAB_PrivateMC/step0_QCD300to600/190301_203149/', #Gabriele
+'/store/group/lpcljm/CRAB_PrivateMC/step0_QCD300to600/190304_215657/', #Meenakshi
+'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD300to600/190302_041540/', #Emanuele QCD
  ]
 
-sub=['0000/','0001/']#,'0002/','0003/']#,'0004/']#,'0005/']
+sub=['0000/','0001/','0002/','0003/','0004/','0005/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
-outname='step3_TtbarFromOpen'
+#outname='step3_TtbarFromOpen'
 #outname='step3_QCD600to300'
+outnames=[
+
+#'step0_ttbarOD_Emanuele',
+#'step0_ttbarOD_Bjorn',
+#'step0_ttbarOD_Michael',
+#'step0_ttbarOD_Sitong',
+#'step0_ttbarOD_Daniel',
+#'step0_ttbarOD_Wenyu',
+#'step0_ttbarOD_Mary',
+#'step0_ttbarOD_Maryv2',
+#'step0_ttbarOD_Jess',
+#'step0_ttbarOD_Xavier',
+#'step0_ttbarOD_Jangbae',
+
+'step0_QCD300to600_Gabriele',
+'step0_QCD300to600_Meenakshi',
+'step0_QCD300to600_Emanuele',
+
+
+]
 
 xrootd='root://cmsxrootd-site.fnal.gov/'
-outfile=open(outname,'w')
 
-for i in folders:
+
+for i in range(len(folders)):
+	outfile=open(outnames[i],'w')
 	for j in sub:
-		folder=i+j
+		folder=folders[i]+j
 		eosls=subprocess.check_output(['eos','root://cmseos.fnal.gov','ls',folder])
 		#print eosls
 		names=eosls.splitlines()
@@ -54,5 +91,6 @@ for i in folders:
 			names.remove('failed')
 		for k in names:
 			outfile.write(xrootd+folder+k+'\n')
+	outfile.close()
 
-outfile.close()
+

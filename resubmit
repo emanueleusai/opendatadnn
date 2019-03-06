@@ -27,5 +27,13 @@ voms-proxy-init -voms cms
 #crab resubmit crab_projects/crab_step2_TtbarFromOpen_01
 #crab status crab_projects/crab_step3_TtbarFromOpen_02
 #crab resubmit crab_projects/crab_step3_TtbarFromOpen_02
-crab status crab_projects/crab_step0_ttbarOD
-crab resubmit crab_projects/crab_step0_ttbarOD
+#crab status crab_projects/crab_step0_ttbarOD
+#crab resubmit crab_projects/crab_step0_ttbarOD
+#crab status crab_projects/crab_step0_QCD300to600
+crab status crab_projects/crab_step0_ttbarOD_03
+#crab status crab_projects/crab_step0_ttbarOD_Sitong
+crab status crab_projects/crab_step0_ttbarOD_Xavier
+#crab resubmit crab_projects/crab_step0_QCD300to600
+crab resubmit crab_projects/crab_step0_ttbarOD_03
+#crab resubmit crab_projects/crab_step0_ttbarOD_Sitong
+crab resubmit crab_projects/crab_step0_ttbarOD_Xavier

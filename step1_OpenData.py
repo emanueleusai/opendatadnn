@@ -5,7 +5,7 @@
 # with command line options: step1 --dbsquery find file where dataset=/GluGluToHTohhTo2Gam2B_mH-260_mh-125_8TeV-pythia6-tauola/Summer12-START53_V7C-v1/GEN-SIM --fileout file:step1.root --pileup_input dbs:/MinBias_TuneZ2star_8TeV-pythia6/Summer12-START50_V13-v3/GEN-SIM --mc --eventcontent RAWSIM --runsScenarioForMC Run2012_AB_C_D_oneRunPerEra --pileup fromDB --datatier GEN-SIM-RAW --conditions START53_V7N::All --step DIGI,L1,DIGI2RAW,HLT:7E33v2 --python_filename /afs/cern.ch/cms/PPD/PdmV/work/McM/submit/HIG-Summer12DR53X-01648/HIG-Summer12DR53X-01648_1_cfg.py --no_exec --customise Configuration/DataProcessing/Utils.addMonitoring -n 1
 import FWCore.ParameterSet.Config as cms
 
-process = cms.Process('HLT2')
+process = cms.Process('HLT')
 
 # import of standard configurations
 process.load('Configuration.StandardSequences.Services_cff')
