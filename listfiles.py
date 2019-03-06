@@ -32,11 +32,12 @@ folders=[
 
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step3_TtbarFromOpen_02/190221_230406/'
 
-'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_03/190303_035256/', #Emanuele
-'/store/user/bburkle/E2E/opendata/ttbar_production/CRAB_PrivateMC/step0_ttbarOD_Bjorn/190301_215422/', #Bjorn
+#'/store/group/lpcml/eusai/CRAB_PrivateMC/step0_ttbarOD_03/190303_035256/', #Emanuele
+#'/store/user/bburkle/E2E/opendata/ttbar_production/CRAB_PrivateMC/step0_ttbarOD_Bjorn/190301_215422/', #Bjorn
 
-#'/store/group/lpcml/mandrews/CRAB_PrivateMC/step0_ttbarOD_Michaelv2/190302_233412/', #Michael
-#'/store/group/lpcml/CRAB_PrivateMC/step0_ttbarOD_Sitong/190301_181405/', #Sitong
+'/store/group/lpcml/mandrews/CRAB_PrivateMC/step0_ttbarOD_Michaelv2/190302_233412/', #Michael
+'/store/group/lpcml/CRAB_PrivateMC/step0_ttbarOD_Sitong/190301_181405/', #Sitong
+
 #'/store/user/dsunyou/CRAB_PrivateMC/step0_ttbarOD_Daniel/190302_022008/', #Daniel
 #'/store/group/lpcljm/CRAB_PrivateMC/step0_ttbarOD_Wenyu/190301_001435/', #Wenyu
 #'/store/user/mhadley/CRAB_PrivateMC/step0_ttbarOD_Mary_v2/190301_222331/', #Mary
@@ -57,10 +58,10 @@ sub=['0000/','0001/','0002/','0003/','0004/','0005/']
 #outname='step3_QCD600to300'
 outnames=[
 
-'step0_ttbarOD_Emanuele',
-'step0_ttbarOD_Bjorn',
-#'step0_ttbarOD_Michael',
-#'step0_ttbarOD_Sitong',
+#'step0_ttbarOD_Emanuele',
+#'step0_ttbarOD_Bjorn',
+'step0_ttbarOD_Michael',
+'step0_ttbarOD_Sitong',
 #'step0_ttbarOD_Daniel',
 #'step0_ttbarOD_Wenyu',
 #'step0_ttbarOD_Mary',
