@@ -52,16 +52,16 @@ folders=[
 # '/store/group/lpcljm/CRAB_PrivateMC/step0_QCD300to600/190304_215657/', #Meenakshi
 # '/store/group/lpcml/eusai/CRAB_PrivateMC/step0_QCD300to600/190302_041540/', #Emanuele QCD
 
-'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD300to600_01/190306_030339/',
-'/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_EmBj_01/190306_164221/',
-'/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_MaDa_01/190306_221626/',
-'/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_MiSi_01/190306_211312/',
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step1_QCD300to600_01/190306_030339/',
+# '/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_EmBj_01/190306_164221/',
+# '/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_MaDa_01/190306_221626/',
+# '/store/group/lpcml/CRAB_UserFiles/step1_ttbarOD_MiSi_01/190306_211312/',
 '/store/group/lpcljm/CRAB_UserFiles/step1_ttbarOD_WeJe_01/190306_173032/',
-'/store/group/lpcml/eusai/CRAB_UserFiles/step1_ttbarOD_XaJa_01/190306_191546/',
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step1_ttbarOD_XaJa_01/190306_191546/',
 
  ]
 
-sub=['0000/','0001/','0002/','0003/','0004/','0005/']
+sub=['0000/','0001/','0002/','0003/']#,'0004/','0005/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
 #outname='step3_TtbarFromOpen'
@@ -77,8 +77,8 @@ outnames=[
 #'step0_ttbarOD_Wenyu',
 #'step0_ttbarOD_Jess',
 
-#'step0_ttbarOD_Daniel',
-#'step0_ttbarOD_Mary',
+# 'step0_ttbarOD_Daniel_2',
+# 'step0_ttbarOD_Mary_2',
 #'step0_ttbarOD_Maryv2',
 
 #'step0_ttbarOD_Xavier',
@@ -88,12 +88,12 @@ outnames=[
 # 'step0_QCD300to600_Meenakshi',
 # 'step0_QCD300to600_Emanuele',
 
-'step1_QCD300to600',
-'step1_ttbarOD_EmBj',
-'step1_ttbarOD_MaDa',
-'step1_ttbarOD_MiSi',
+# 'step1_QCD300to600',
+# 'step1_ttbarOD_EmBj',
+# 'step1_ttbarOD_MaDa',
+# 'step1_ttbarOD_MiSi',
 'step1_ttbarOD_WeJe',
-'step1_ttbarOD_XaJa',
+# 'step1_ttbarOD_XaJa',
 
 ]
 
