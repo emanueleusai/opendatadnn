@@ -1,10 +1,15 @@
 voms-proxy-init -voms cms
+crab status crab_projects/crab_step2_QCD300to600_01
+crab resubmit crab_projects/crab_step2_QCD300to600_01
+crab status crab_projects/crab_step2_ttbarOD_XaJa_01
+crab resubmit crab_projects/crab_step2_ttbarOD_XaJa_01
+
 #crab status crab_projects/crab_step1_QCD300to600_01
 #crab resubmit crab_projects/crab_step1_QCD300to600_01 --sitewhitelist="T2_AT_*,T2_BE_*,T2_BR_*,T2_CH_*,T2_CN_*,T2_DE_*,T2_EE_*,T2_ES_CIEMAT,T2_FI_*,T2_FR_*,T2_GR_*,T2_HU_*,T2_IN_*,T2_IT_*,T2_KR_*,T2_MY_*,T2_PK_*,T2_PL_*,T2_PT_*,T2_RU_*,T2_TH_*,T2_TR_*,T2_TW_*,T2_UA_*,T2_UK_*,T2_US_*,T3_BG_*,T3_BY_*,T3_CH_*,T3_CN_*,T3_CO_*,T3_ES_*,T3_FR_*,T3_GR_*,T3_HU_*,T3_IN_*,T3_IT_*,T3_KR_*,T3_MX_*,T3_RU_*,T3_TW_*,T3_UK_*,T3_US_*"
 #crab status crab_projects/crab_step1_ttbarOD_XaJa_01
 #crab resubmit crab_projects/crab_step1_ttbarOD_XaJa_01 --sitewhitelist="T2_AT_*,T2_BE_*,T2_BR_*,T2_CH_*,T2_CN_*,T2_DE_*,T2_EE_*,T2_ES_CIEMAT,T2_FI_*,T2_FR_*,T2_GR_*,T2_HU_*,T2_IN_*,T2_IT_*,T2_KR_*,T2_MY_*,T2_PK_*,T2_PL_*,T2_PT_*,T2_RU_*,T2_TH_*,T2_TR_*,T2_TW_*,T2_UA_*,T2_UK_*,T2_US_*,T3_BG_*,T3_BY_*,T3_CH_*,T3_CN_*,T3_CO_*,T3_ES_*,T3_FR_*,T3_GR_*,T3_HU_*,T3_IN_*,T3_IT_*,T3_KR_*,T3_MX_*,T3_RU_*,T3_TW_*,T3_UK_*,T3_US_*"
-crab status crab_projects/crab_step1_ttbarOD_MaDa_01
-crab resubmit crab_projects/crab_step1_ttbarOD_MaDa_01 --sitewhitelist="T2_AT_*,T2_BE_*,T2_BR_*,T2_CH_*,T2_CN_*,T2_DE_*,T2_EE_*,T2_ES_CIEMAT,T2_FI_*,T2_FR_*,T2_GR_*,T2_HU_*,T2_IN_*,T2_IT_*,T2_KR_*,T2_MY_*,T2_PK_*,T2_PL_*,T2_PT_*,T2_RU_*,T2_TH_*,T2_TR_*,T2_TW_*,T2_UA_*,T2_UK_*,T2_US_*,T3_BG_*,T3_BY_*,T3_CH_*,T3_CN_*,T3_CO_*,T3_ES_*,T3_FR_*,T3_GR_*,T3_HU_*,T3_IN_*,T3_IT_*,T3_KR_*,T3_MX_*,T3_RU_*,T3_TW_*,T3_UK_*,T3_US_*"
+#crab status crab_projects/crab_step1_ttbarOD_MaDa_01
+#crab resubmit crab_projects/crab_step1_ttbarOD_MaDa_01 --sitewhitelist="T2_AT_*,T2_BE_*,T2_BR_*,T2_CH_*,T2_CN_*,T2_DE_*,T2_EE_*,T2_ES_CIEMAT,T2_FI_*,T2_FR_*,T2_GR_*,T2_HU_*,T2_IN_*,T2_IT_*,T2_KR_*,T2_MY_*,T2_PK_*,T2_PL_*,T2_PT_*,T2_RU_*,T2_TH_*,T2_TR_*,T2_TW_*,T2_UA_*,T2_UK_*,T2_US_*,T3_BG_*,T3_BY_*,T3_CH_*,T3_CN_*,T3_CO_*,T3_ES_*,T3_FR_*,T3_GR_*,T3_HU_*,T3_IN_*,T3_IT_*,T3_KR_*,T3_MX_*,T3_RU_*,T3_TW_*,T3_UK_*,T3_US_*"
 #crab status crab_projects/crab_step0_QCD600to3000_01
 #crab status crab_projects/crab_step0_QCD600to3000_02
 #crab status crab_projects/crab_step0_QCD600to3000_03
