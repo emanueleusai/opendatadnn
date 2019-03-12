@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-the_name='step3_QCD600to3000_01'
+the_name='step3_ttbarOD_01'
 config.General.requestName = the_name
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
@@ -18,13 +18,13 @@ config.JobType.outputFiles = ["savehits_output.root"]
 #config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
 #config.Data.splitting = 'EventAwareLumiBased'
-config.Data.unitsPerJob = 2
+config.Data.unitsPerJob = 4
 config.Data.outLFNDirBase = '/store/group/lpcml/eusai/'# % (getUsernameFromSiteDB())
 config.Data.publication = False
 config.Data.outputDatasetTag = the_name
 config.Data.ignoreLocality = True
 #config.Data.totalUnits = 100000
-config.Data.userInputFiles = open('step2_QCDPt_15to3000').readlines()
+config.Data.userInputFiles = open('step2_ttbarOD_EmBj').readlines()+open('step2_ttbarOD_MaDa').readlines()+open('step2_ttbarOD_MiSi').readlines()+open('step2_ttbarOD_WeJe').readlines()+open('step2_ttbarOD_XaJa').readlines()
 #Data.outputPrimaryDataset
 
 config.Site.storageSite = 'T3_US_FNALLPC'

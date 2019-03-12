@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-the_name='step3_QCD600to3000_01'
+the_name='step3_QCD300to600_01'
 config.General.requestName = the_name
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
@@ -24,7 +24,7 @@ config.Data.publication = False
 config.Data.outputDatasetTag = the_name
 config.Data.ignoreLocality = True
 #config.Data.totalUnits = 100000
-config.Data.userInputFiles = open('step2_QCDPt_15to3000').readlines()
+config.Data.userInputFiles = open('step2_QCD300to600').readlines()
 #Data.outputPrimaryDataset
 
 config.Site.storageSite = 'T3_US_FNALLPC'
