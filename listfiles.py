@@ -65,13 +65,15 @@ folders=[
 # '/store/group/lpcljm/CRAB_UserFiles/step2_ttbarOD_WeJe_01/190308_200010/',
 # '/store/group/lpcml/eusai/CRAB_UserFiles/step2_ttbarOD_XaJa_01/190308_190833/',
 
-'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD300to600_01/190312_064617/',
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD300to600_01/190312_064617/',
 # '/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD600to3000_01/190312_064406/',
 # '/store/group/lpcml/eusai/CRAB_UserFiles/step3_ttbarOD_01/190312_064817/',
 
+'/store/group/lpcml/CRAB_PrivateMC/step0_QCD400to600/190314_003535/',
+'/store/group/lpcml/CRAB_PrivateMC/step0_QCD400to600_E/190314_003928/',
  ]
 
-sub=['0000/','0001/','0002/']#,'0003/','0004/']#,'0005/']
+sub=['0000/','0001/','0002/','0003/','0004/','0005/','0006/','0007/','0008/','0009/','0010/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
 #outname='step3_TtbarFromOpen'
@@ -107,14 +109,16 @@ outnames=[
 
 # 'step2_QCD300to600',
 
-'step3_QCD300to600',
+#'step3_QCD300to600',
 # 'step3_QCD600to3000',
 # 'step3_ttbarOD',
 
+'step0_QCD400to600',
+'step0_QCD400to600_E',
 ]
 
-#xrootd='root://cmsxrootd-site.fnal.gov/'
-xrootd='root://cmseos.fnal.gov/'
+xrootd='root://cmsxrootd-site.fnal.gov/'
+# xrootd='root://cmseos.fnal.gov/'
 
 for i in range(len(folders)):
 	outfile=open(outnames[i],'w')
