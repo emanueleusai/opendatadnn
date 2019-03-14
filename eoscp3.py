@@ -1,8 +1,8 @@
 import subprocess
 
-filelist='step3_QCD300to600'
+# filelist='step3_QCD300to600'
 # filelist='step3_QCD600to3000'
-# filelist='step3_ttbarOD'
+filelist='step3_ttbarOD'
 folder=filelist+'/'
 select='save'
 

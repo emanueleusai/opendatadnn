@@ -59,15 +59,19 @@ folders=[
 #'/store/group/lpcljm/CRAB_UserFiles/step1_ttbarOD_WeJe_01/190306_173032/',
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step1_ttbarOD_XaJa_01/190306_191546/',
 #'/store/group/lpcml/eusai/CRAB_UserFiles/step2_QCD300to600_01/190308_185209/',
-'/store/group/lpcml/CRAB_UserFiles/step2_ttbarOD_EmBj_01/190308_200019/',
-'/store/group/lpcml/eusai/CRAB_UserFiles/step2_ttbarOD_MaDa_01/190309_215834/',
-'/store/group/lpcml/CRAB_UserFiles/step2_ttbarOD_MiSi_01/190309_221351/',
-'/store/group/lpcljm/CRAB_UserFiles/step2_ttbarOD_WeJe_01/190308_200010/',
-'/store/group/lpcml/eusai/CRAB_UserFiles/step2_ttbarOD_XaJa_01/190308_190833/',
+# '/store/group/lpcml/CRAB_UserFiles/step2_ttbarOD_EmBj_01/190308_200019/',
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step2_ttbarOD_MaDa_01/190309_215834/',
+# '/store/group/lpcml/CRAB_UserFiles/step2_ttbarOD_MiSi_01/190309_221351/',
+# '/store/group/lpcljm/CRAB_UserFiles/step2_ttbarOD_WeJe_01/190308_200010/',
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step2_ttbarOD_XaJa_01/190308_190833/',
+
+'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD300to600_01/190312_064617/',
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD600to3000_01/190312_064406/',
+# '/store/group/lpcml/eusai/CRAB_UserFiles/step3_ttbarOD_01/190312_064817/',
 
  ]
 
-sub=['0000/','0001/','0002/','0003/']#,'0004/']#,'0005/']
+sub=['0000/','0001/','0002/']#,'0003/','0004/']#,'0005/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
 #outname='step3_TtbarFromOpen'
@@ -102,16 +106,15 @@ outnames=[
 # 'step1_ttbarOD_XaJa',
 
 # 'step2_QCD300to600',
-'step2_ttbarOD_EmBj',
-'step2_ttbarOD_MaDa',
-'step2_ttbarOD_MiSi',
-'step2_ttbarOD_WeJe',
-'step2_ttbarOD_XaJa',
+
+'step3_QCD300to600',
+# 'step3_QCD600to3000',
+# 'step3_ttbarOD',
 
 ]
 
-xrootd='root://cmsxrootd-site.fnal.gov/'
-
+#xrootd='root://cmsxrootd-site.fnal.gov/'
+xrootd='root://cmseos.fnal.gov/'
 
 for i in range(len(folders)):
 	outfile=open(outnames[i],'w')

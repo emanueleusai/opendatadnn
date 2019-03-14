@@ -1,7 +1,7 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-the_name='step0_QCD400to600'
+the_name='step0_QCD400to600_E'
 config.General.requestName = the_name
 config.General.workArea = 'crab_projects'
 config.General.transferOutputs = True
