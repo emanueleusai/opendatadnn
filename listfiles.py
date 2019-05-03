@@ -72,15 +72,44 @@ folders=[
 # '/store/group/lpcml/CRAB_PrivateMC/step0_QCD400to600/190314_003535/',
 # '/store/group/lpcml/CRAB_PrivateMC/step0_QCD400to600_E/190314_003928/',
 
-'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD400to600_01/190320_173946/',
+#'/store/group/lpcml/eusai/CRAB_UserFiles/step3_QCD400to600_01/190320_173946/',
+
+'/eos/opendata/cms/upload/emanuele/step2_QCD300to600/',
+'/eos/opendata/cms/upload/emanuele/step2_QCD400to600/',
+'/eos/opendata/cms/upload/emanuele/step2_QCD_600to3000_01/',
+'/eos/opendata/cms/upload/emanuele/step2_QCD_600to3000_02/',
+'/eos/opendata/cms/upload/emanuele/step2_ttbarOD_01/',
+'/eos/opendata/cms/upload/emanuele/step2_ttbarOD_02/',
+'/eos/opendata/cms/upload/emanuele/step2_ttbarOD_03/',
+'/eos/opendata/cms/upload/emanuele/step2_ttbarOD_04/',
+'/eos/opendata/cms/upload/emanuele/step2_ttbarOD_05/',
+'/eos/opendata/cms/upload/emanuele/step3_QCD300to600/',
+'/eos/opendata/cms/upload/emanuele/step3_QCD400to600/',
+'/eos/opendata/cms/upload/emanuele/step3_QCD600to3000/',
+'/eos/opendata/cms/upload/emanuele/step3_ttbarOD/',
+
  ]
 
-sub=['0000/','0001/','0002/','0003/']#,'0004/','0005/']#,'0006/','0007/','0008/','0009/','0010/']
+sub=['']#['0000/','0001/','0002/','0003/']#,'0004/','0005/']#,'0006/','0007/','0008/','0009/','0010/']
 
 #folder='/store/group/lpcml/eusai/step2_ttbar_p8_03/'
 #outname='step3_TtbarFromOpen'
 #outname='step3_QCD600to300'
 outnames=[
+
+'step2_QCD300to600_OD',
+'step2_QCD400to600_OD',
+'step2_QCD_600to3000_01_OD',
+'step2_QCD_600to3000_02_OD',
+'step2_ttbarOD_01_OD',
+'step2_ttbarOD_02_OD',
+'step2_ttbarOD_03_OD',
+'step2_ttbarOD_04_OD',
+'step2_ttbarOD_05_OD',
+'step3_QCD300to600_OD',
+'step3_QCD400to600_OD',
+'step3_QCD600to3000_OD',
+'step3_ttbarOD_OD',
 
 #'step0_ttbarOD_Emanuele',
 #'step0_ttbarOD_Bjorn',
@@ -118,17 +147,17 @@ outnames=[
 # 'step0_QCD400to600',
 # 'step0_QCD400to600_E',
 
- 'step3_QCD400to600',
+ #'step3_QCD400to600',
 ]
 
-xrootd='root://cmsxrootd-site.fnal.gov/'
+xrootd='root://eospublic.cern.ch/'
 #xrootd='root://cmseos.fnal.gov/'
 
 for i in range(len(folders)):
 	outfile=open(outnames[i],'w')
 	for j in sub:
 		folder=folders[i]+j
-		eosls=subprocess.check_output(['eos','root://cmseos.fnal.gov','ls',folder])
+		eosls=subprocess.check_output(['eos','root://eospublic.cern.ch/','ls',folder])
 		#print eosls
 		names=eosls.splitlines()
 		if 'log' in names:
